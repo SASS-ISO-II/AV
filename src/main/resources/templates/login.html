@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<title>Login de usuario</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<h1>Log-in</h1>
+		<form action="#" th:action="@{/login}" th:object="${login}" method="post">
+			<p>Nombre: <input type="text" th:field="*{nombre}" required /></p>
+			<p>Apellidos: <input type="text" th:field="*{apellidos}" required /></p>
+			<p>Dirección: <input type="text" th:field="*{direccion}" required /></p>
+			<p>Nombre de usuario: <input type="text" th:field="*{login}" required /></p>
+			<p>Contraseña: <input type="password" th:field="*{pass}" required /></p>
+			<p>Tipo de usuario:
+            <select name="tipoUsuario">
+                <option value="inquilino">Inquilino</option>
+                <option value="propietario">Propietario</option>
+            </select>
+        	</p>  
+			<p>
+				<input type="submit" value="Submit" /> <input type="reset" value="Reset" />
+			</p>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<title>Información de propietario</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<h1>Propietario</h1>
+		<p th:text="'Nombre: ' + ${login.nombre}" />
+		<p th:text="'Apellidos: ' + ${login.apellidos}" />
+		<p th:text="'Dirección: ' + ${login.direccion}" />
+		<p th:text="'Nombre de usuario: ' + ${login.login}" />
+		<!--<p th:text="'Propiedades: ' + ${login.propiedades}" />
+		<!--<p th:text="Propiedades: ' + ${login.propietario}" />-->
+		<a href="/login">Entrar con otro usuario</a>
+	</body>
+</html>
