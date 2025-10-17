@@ -1,0 +1,35 @@
+{
+	"folders": {},
+	"connections": {
+		"derby-199efb81ef4-1b53777cdf96c39d": {
+			"provider": "generic",
+			"driver": "derby",
+			"name": "database",
+			"save-password": true,
+			"configuration": {
+				"database": "/Users/samanthavelasco/git/AV/database",
+				"url": "jdbc:derby:/Users/samanthavelasco/git/AV/database",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
