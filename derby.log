@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Oct 17 09:31:46 CEST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0199-f114-f51e-0000007accf0 
+on database directory /Users/samanthavelasco/git/AV/database with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@8e77aac 
+Loaded from file:/Users/samanthavelasco/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Homebrew
+java.runtime.version=24.0.2
+user.dir=/Users/samanthavelasco/git/AV
+os.name=Mac OS X
+os.arch=aarch64
+os.version=15.6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

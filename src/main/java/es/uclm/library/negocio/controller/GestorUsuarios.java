@@ -1,5 +1,6 @@
 package es.uclm.library.negocio.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +11,59 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+//import org.springframework.beans.factory.annotation.Autowired;
+import es.uclm.library.persistencia.PropietarioDAO;
+import es.uclm.library.persistencia.UsuarioDAO;
+import es.uclm.library.persistencia.InquilinoDAO;
 
 @Controller
 public class GestorUsuarios {
+	
+	private static final Logger log = LoggerFactory.getLogger(GestorUsuarios.class);
+	@Autowired
+	private PropietarioDAO propietarioDAO;
+	
+	@Autowired
+	private InquilinoDAO inquilinoDAO;
+	
+	@Autowired
+	private UsuarioDAO usuarioDAO;
+	
+	@GetMapping("/registro")
+	public String mostrarRegistro(Model model) {
+	    model.addAttribute("registro", new Usuario());
+	    log.info(usuarioDAO.findAll().toString());
+	    return "registro";
+	}
+	
+	@PostMapping("/registro")
+	public String loginUsuario(@RequestParam("tipoUsuario") String tipoUsuario, @ModelAttribute("registro") Usuario usuario, Model model) {
+
+	    if ("propietario".equalsIgnoreCase(tipoUsuario)) {
+	        Propietario propietario = new Propietario();
+	        copiarDatos(usuario, propietario);
+	        model.addAttribute("registro", propietario);
+	        
+	        Propietario savedPropietario = propietarioDAO.save(propietario);
+	        log.info("Saved propietario: " + savedPropietario);
+	        
+	        return "propietario";
+	        
+	    } else { 
+	        Inquilino inquilino = new Inquilino();
+	        copiarDatos(usuario, inquilino);
+	        model.addAttribute("registro", inquilino);
+
+	        Inquilino savedInquilino = inquilinoDAO.save(inquilino);
+	        log.info("Saved inquilino: " + savedInquilino);
+	        
+	        return "usuario";
+	        
+	    }
+	    
+	}
 	
 	@GetMapping("/login")
 	public String mostrarLogin(Model model) {
@@ -21,21 +72,31 @@ public class GestorUsuarios {
 	}
 	
 	@PostMapping("/login")
-	public String loginUsuario(@RequestParam("tipoUsuario") String tipoUsuario, @ModelAttribute("login") Usuario usuario, Model model) {
-
-	    if ("propietario".equalsIgnoreCase(tipoUsuario)) {
-	        Propietario propietario = new Propietario();
-	        copiarDatos(usuario, propietario);
-	        model.addAttribute("login", propietario);
-	        return "propietario";
-	    } else { 
-	        Inquilino inquilino = new Inquilino();
-	        copiarDatos(usuario, inquilino);
-	        model.addAttribute("login", inquilino);
-	        return "usuario";
+	public String hacerLogin(@ModelAttribute("login") Usuario usuario, Model model) {
+		
+	    Usuario encontrado = usuarioDAO.findByLoginAndPass(usuario.getLogin(), usuario.getPass());
+	    
+	    if (encontrado == null) {
+	        model.addAttribute("error", "Usuario o contraseña incorrectos");
+	        return "login";
 	    }
 	    
+	    Propietario propietario = propietarioDAO.findByLogin(encontrado.getLogin());
+	    if (propietario != null) {
+	        model.addAttribute("registro", propietario);
+	        return "propietario";
+	    }
+	    
+	    Inquilino inquilino = inquilinoDAO.findByLogin(encontrado.getLogin());
+	    if (inquilino != null) {
+	        model.addAttribute("registro", inquilino);
+	        return "usuario"; 
+	    }
+	    
+	    return "login";
+	    
 	}
+
 	
 	private void copiarDatos(Usuario origen, Usuario destino) {
 	    destino.setLogin(origen.getLogin());

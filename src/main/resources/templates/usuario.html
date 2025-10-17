@@ -1,15 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
+	<style>
+			h1 {
+				text-align: center;
+					}
+			form {
+				width: 300px;
+				margin: 0 auto; /* Centra horizontalmente */
+				padding: 20px;
+				border: 1px solid #ccc;
+				border-radius: 8px;
+				background-color: #f9f9f9;
+			}
+		</style>
 	<head>
-		<title>Información de usuario</title>
+		<title>Información de inquilino</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
-		<h1>Usuario</h1>
-		<p th:text="'Nombre: ' + ${login.nombre}" />
-		<p th:text="'Apellidos: ' + ${login.apellidos}" />
-		<p th:text="'Dirección: ' + ${login.direccion}" />
-		<p th:text="'Nombre de usuario: ' + ${login.login}" />
+		<h1>Inquilino</h1>
+		<p th:text="'Nombre: ' + ${registro.nombre}" ></p>
+		<p th:text="'Apellidos: ' + ${registro.apellidos}" ></p>
+		<p th:text="'Dirección: ' + ${registro.direccion}" ></p>
+		<p th:text="'Nombre de usuario: ' + ${registro.login}" ></p>
 		<a href="/login">Entrar con otro usuario</a>
 	</body>
 </html>
