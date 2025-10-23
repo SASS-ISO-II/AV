@@ -1,7 +1,10 @@
 package es.uclm.library.negocio.dominio;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Reserva {
@@ -15,6 +18,7 @@ public class Reserva {
 	Pago pago;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
     @JoinColumn(name = "solicitud_id")
 	SolicitudReserva solicitud;
 	
@@ -29,17 +33,15 @@ public class Reserva {
 	@Enumerated(EnumType.STRING)
 	PoliticaCancelacion politicaCancelacion;
 	
-	@Temporal(TemporalType.DATE)
-	private Date fechaInicio;
-	@Temporal(TemporalType.DATE)
-	private Date fechaFin;
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
 	
 	public Reserva() {
 		
 	}
 
 	public Reserva(Long id, Pago pago, SolicitudReserva solicitud, Inquilino inquilino, Inmueble inmueble,
-			PoliticaCancelacion politicaCancelacion, Date fechaInicio, Date fechaFin) {
+			PoliticaCancelacion politicaCancelacion, LocalDate fechaInicio, LocalDate fechaFin) {
 		super();
 		this.id = id;
 		this.pago = pago;
@@ -109,27 +111,27 @@ public class Reserva {
 		this.politicaCancelacion = politicaCancelacion;
 	}
 
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
-	@Override
-	public String toString() {
-		return "Reserva [id=" + id + ", pago=" + pago + ", solicitud=" + solicitud + ", inquilino=" + inquilino
-				+ ", inmueble=" + inmueble + ", politicaCancelacion=" + politicaCancelacion + ", fechaInicio="
-				+ fechaInicio + ", fechaFin=" + fechaFin + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Reserva [id=" + id + ", pago=" + pago + ", solicitud=" + solicitud + ", inquilino=" + inquilino
+//				+ ", inmueble=" + inmueble + ", politicaCancelacion=" + politicaCancelacion + ", fechaInicio="
+//				+ fechaInicio + ", fechaFin=" + fechaFin + "]";
+//	}
 
 }

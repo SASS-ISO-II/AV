@@ -13,12 +13,14 @@ import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
 import es.uclm.library.persistencia.PropietarioDAO;
 import es.uclm.library.persistencia.UsuarioDAO;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import es.uclm.library.persistencia.InquilinoDAO;
 
 @Controller
+@Transactional
 public class GestorUsuarios {
 	
 	private static final Logger log = LoggerFactory.getLogger(GestorUsuarios.class);
@@ -70,9 +72,9 @@ public class GestorUsuarios {
 	    model.addAttribute("login", new Usuario());
 	    return "login";
 	}
-	
+
 	@PostMapping("/login")
-	public String hacerLogin(@ModelAttribute("login") Usuario usuario, Model model) {
+	public String hacerLogin(@ModelAttribute("login") Usuario usuario, Model model, HttpSession session) {
 		
 	    Usuario encontrado = usuarioDAO.findByLoginAndPass(usuario.getLogin(), usuario.getPass());
 	    
@@ -80,6 +82,8 @@ public class GestorUsuarios {
 	        model.addAttribute("error", "Usuario o contraseña incorrectos");
 	        return "login";
 	    }
+	    
+	    session.setAttribute("usuarioAutenticado", encontrado);
 	    
 	    Propietario propietario = propietarioDAO.findByLogin(encontrado.getLogin());
 	    if (propietario != null) {
@@ -97,7 +101,6 @@ public class GestorUsuarios {
 	    
 	}
 
-	
 	private void copiarDatos(Usuario origen, Usuario destino) {
 	    destino.setLogin(origen.getLogin());
 	    destino.setPass(origen.getPass());
