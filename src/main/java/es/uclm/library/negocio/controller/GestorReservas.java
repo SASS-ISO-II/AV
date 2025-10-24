@@ -64,7 +64,7 @@ public class GestorReservas {
 	    
 	    var reservasSolapadas = reservaDAO.findReservasSolapadas(reserva.getFechaInicio(), reserva.getFechaFin());
 	    if (!reservasSolapadas.isEmpty()) {
-	        model.addAttribute("error", "Esas fechas ya están reservada. Por favor, elige otro rango.");
+	        model.addAttribute("error", "Esas fechas ya están reservadas. Por favor, elige otro rango.");
 	        model.addAttribute("reserva", new Reserva());
 	        return "reservar";
 	    }
