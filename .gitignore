@@ -1,2 +1,56 @@
-/target
+###############################################
+# COMPILACIÓN Y BINARIOS GENERADOS.
+###############################################
+
+# Carpeta generada por Maven con los .class y el .jar del proyecto.
+/target/
+
+# Archivos de bytecode Java
+*.class
+
+###############################################
+# CONFIGURACIÓN DEL IDE (ECLIPSE / INTELLIJ).
+###############################################
+
+# Archivos de configuración de Eclipse.
+.classpath
+.project
+.settings/
+
+# Archivos de configuración de IntelliJ IDEA.
+.idea/
+*.iml
+
+###############################################
+# ARCHIVOS DE SISTEMA.
+###############################################
+
+# Archivo oculto generado por macOS.
 .DS_Store
+
+###############################################
+# LOGS Y BASE DE DATOS LOCALES.
+###############################################
+
+# Carpeta donde se almacenan logs locales.
+log/
+derby.log
+
+###############################################
+# DEPENDENCIAS Y HERRAMIENTAS.
+###############################################
+
+# Archivo binario del wrapper de Maven.
+.mvn/wrapper/maven-wrapper.jar
+
+###############################################
+# TEMPORALES.
+###############################################
+
+# Archivos temporales del sistema o del entorno.
+*.tmp
+*.bak
+*.swp
+
+# Archivos de copia de seguridad de editores.
+*~
