@@ -1,14 +1,14 @@
 {
 	"folders": {},
 	"connections": {
-		"derby-199efb81ef4-1b53777cdf96c39d": {
+		"derby-19a1b683b8f-134f5c0e3f44031f": {
 			"provider": "generic",
 			"driver": "derby",
 			"name": "database",
 			"save-password": true,
 			"configuration": {
-				"database": "/Users/samanthavelasco/git/AV/database",
-				"url": "jdbc:derby:/Users/samanthavelasco/git/AV/database",
+				"database": "C:\\Users\\sergi\\git\\AV\\database",
+				"url": "jdbc:derby:C:\\Users\\sergi\\git\\AV\\database",
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"closeIdleConnection": true,
