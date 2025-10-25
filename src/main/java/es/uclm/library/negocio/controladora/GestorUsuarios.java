@@ -36,7 +36,6 @@ public class GestorUsuarios {
 	@GetMapping("/registro")
 	public String mostrarRegistro(Model model) {
 	    model.addAttribute("registro", new Usuario());
-	    log.info(usuarioDAO.findAll().toString());
 	    return "registro";
 	}
 	

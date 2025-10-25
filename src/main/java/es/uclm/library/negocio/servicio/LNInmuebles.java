@@ -1,5 +1,7 @@
 package es.uclm.library.negocio.servicio;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,4 +40,13 @@ public class LNInmuebles {
         inmueble.setPropietario(propietario);
         return inmuebleDAO.save(inmueble);
     }
+    
+    public Collection<Inmueble> obtenerTodos() {
+        return inmuebleDAO.findAll(); // devuelve todos los inmuebles de la BD
+    }
+
+    public Inmueble obtenerInmueblePorId(Long id) {
+        return inmuebleDAO.findById(id).orElse(null);
+    }
+
 }

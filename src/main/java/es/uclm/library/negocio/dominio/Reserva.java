@@ -2,10 +2,11 @@ package es.uclm.library.negocio.dominio;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 public class Reserva {
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -121,5 +122,14 @@ public class Reserva {
         return (fechaInicio != null && fechaFin != null &&
                 (hoy.isEqual(fechaInicio) || (hoy.isAfter(fechaInicio) && hoy.isBefore(fechaFin))));
     }
+
+	public double getNoches() {
+		
+		if (fechaInicio != null && fechaFin != null) {
+	        return ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+	    }
+		
+		return 0;
+	}
 
 }

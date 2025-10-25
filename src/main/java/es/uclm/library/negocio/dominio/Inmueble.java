@@ -13,7 +13,7 @@ public class Inmueble {
     @ManyToOne
     @JoinColumn(name = "propietario_login")
     private Propietario propietario;
-
+    
     @OneToMany(mappedBy = "inmueble", cascade = CascadeType.ALL)
     private Collection<Reserva> reservas;
 

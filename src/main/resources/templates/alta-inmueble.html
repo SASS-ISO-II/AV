@@ -49,7 +49,7 @@
     <p>Propietario logueado: <b th:text="${propietario.login}"></b></p>
 </div>
 
-<form th:action="@{/inmuebles/guardar(login=${propietario?.login})}" th:object="${inmueble}" method="post">
+<form th:action="@{/inmuebles/guardar}" th:object="${inmueble}" method="post">
     <fieldset th:attr="disabled=${!estaLogueado}">
 
         <label>Calle:</label>
@@ -75,6 +75,8 @@
         </select><br><br>
 
         <button type="submit">Guardar</button>
+		
+		<p><a href="/inicio">Volver al inicio</a></p>
 
     </fieldset>
 </form>

@@ -13,6 +13,7 @@ import es.uclm.library.negocio.dominio.MetodoPago;
 import es.uclm.library.negocio.dominio.Pago;
 import es.uclm.library.negocio.dominio.Reserva;
 import es.uclm.library.negocio.servicio.LNPagos;
+import es.uclm.library.negocio.servicio.LNReservas;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -20,7 +21,10 @@ public class GestorPagos {
 
     @Autowired
     private LNPagos lnPagos;
-
+    
+	@Autowired
+	private LNReservas lnReservas;
+	
     private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
 
     @GetMapping("/pago")
@@ -32,6 +36,10 @@ public class GestorPagos {
 
         model.addAttribute("pago", new Pago());
         model.addAttribute("metodos", MetodoPago.values());
+        
+        double total = reserva.getNoches() * reserva.getInmueble().getPrecioNoche();
+        model.addAttribute("totalAPagar", total);
+
         return "pago";
     }
 
@@ -41,9 +49,13 @@ public class GestorPagos {
         if (reserva == null) {
             return "redirect:/reservar";
         }
+        
+		lnReservas.guardarReserva(reserva);
 
         Pago pagoRegistrado = lnPagos.registrarPago(pago, reserva);
         log.info("Pago registrado correctamente: {}", pagoRegistrado);
+        
+        session.removeAttribute("reservaActual");
 
         model.addAttribute("reserva", reserva);
         model.addAttribute("pago", pagoRegistrado);
