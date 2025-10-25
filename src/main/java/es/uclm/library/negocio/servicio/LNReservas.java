@@ -14,7 +14,7 @@ import es.uclm.library.persistencia.ReservaDAO;
 public class LNReservas {
 
 	@Autowired
-    private ReservaDAO reservaDAO;
+    private ReservaDAO reservaDAO; 
 
     @Autowired
     private InquilinoDAO inquilinoDAO;

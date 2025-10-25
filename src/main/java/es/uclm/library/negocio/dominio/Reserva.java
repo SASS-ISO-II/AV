@@ -121,5 +121,4 @@ public class Reserva {
         return (fechaInicio != null && fechaFin != null &&
                 (hoy.isEqual(fechaInicio) || (hoy.isAfter(fechaInicio) && hoy.isBefore(fechaFin))));
     }
-
 }

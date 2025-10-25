@@ -7,8 +7,8 @@
 			"name": "database",
 			"save-password": true,
 			"configuration": {
-				"database": "/Users/samanthavelasco/git/AV/database",
-				"url": "jdbc:derby:/Users/samanthavelasco/git/AV/database",
+				"database": "C:\\Users\\Adrián\\Documents\\workspace\\AV-LAB\\database",
+				"url": "jdbc:derby:C:\\Users\\Adrián\\Documents\\workspace\\AV-LAB\\database",
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"closeIdleConnection": true,

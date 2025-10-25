@@ -48,7 +48,7 @@ public class GestorReservas {
 	    }
 
 	    if (!lnReservas.validarFechas(reserva)) {
-	        model.addAttribute("error", "No se pueden seleccionar fechas pasadas");
+	        model.addAttribute("error", "No se pueden seleccionar fechas pasadas. ");
 	        model.addAttribute("reserva", new Reserva());
 	        return "reservar";
 	    }
