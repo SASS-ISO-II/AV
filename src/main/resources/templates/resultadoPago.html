@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Confirmación de pago</title>
+    <meta charset="UTF-8" />
+    <style>
+        h1 { text-align: center; }
+        .container { width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; text-align: center; }
+        a { display: block; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmación de pago</h1>
+        <p th:text="'Pago completado con éxito'"></p>
+        <a href="/registro">Registrarse</a>
+        <a href="/login">Iniciar sesión con otro usuario</a>
+        <a href="/inicio">Volver al inicio</a>
+    </div>
+</body>
+</html>

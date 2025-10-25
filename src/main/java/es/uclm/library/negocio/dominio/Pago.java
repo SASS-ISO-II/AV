@@ -18,16 +18,16 @@ public class Pago {
 	
 	private UUID referencia;
 	
+	public Pago() {
+		super();
+	}
+	
 	public Pago(Long id, MetodoPago metodo, Reserva reserva, UUID referencia) {
 		super();
 		this.id = id;
 		this.metodo = metodo;
 		this.reserva = reserva;
 		this.referencia = referencia;
-	}
-	
-	public Pago() {
-		
 	}
 
 	public Long getId() {
