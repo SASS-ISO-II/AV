@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 80px;
+        }
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            padding-top: 100px; 
+            text-align: center;
+        }
+        form {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/registro">Registrarse</a>
+        <a href="/login">Iniciar sesión</a>
+        <a href="/login">Dar de alta un inmueble</a>
+        <a href="/login">Reservar un inmueble</a>
+    </div>
+    <div class="content">
+        <h1>Inicio</h1>
+        <form action="#" th:action="@{/inicio}" th:object="${inicio}" method="post">
+            <p>Bienvenido a la página de inicio.</p>
+        </form>
+    </div>
+</body>
+</html>

@@ -20,11 +20,14 @@
 	<body>
 		<h1>Pago</h1>
 		<form action="#" th:action="@{/pago}" th:object="${pago}" method="post">
-			<p>Página de pago bien guaparda disponible para la siguiente entrega :)</p>
-			<a href="/registro">¿No tienes cuenta? Regístrate</a>
-			<p>
-				<a href="/login">¿Ya tienes usuario?</a>
-			</p>
+		    <label for="metodo">Método de pago:</label>
+		    <select id="metodo" th:field="*{metodo}">
+		        <option th:each="m : ${metodos}" th:value="${m}" th:text="${m}"></option>
+		    </select>
+		    <br><br>
+		    <button type="submit">Realizar Pago</button>
+		    <br><br>
+		    <a href="/inicio">Volver al inicio</a>
 		</form>
 	</body>
 </html>

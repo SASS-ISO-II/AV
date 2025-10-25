@@ -31,6 +31,11 @@ public class GestorReservas {
 	    if (usuario == null) {
 	        return "redirect:/login";
 	    }
+	    
+	    if (!(usuario instanceof Inquilino)) {
+	        model.addAttribute("error", "Solo los inquilinos pueden hacer reservas");
+	        return "redirect:/login";
+	    }
 
 	    model.addAttribute("reserva", new Reserva());
 	    
@@ -71,8 +76,8 @@ public class GestorReservas {
 
 	    reserva.setInquilino(inquilino);
 	    reservaDAO.save(reserva);
-
-	    return "pago";
+	    session.setAttribute("reservaActual", reserva);
+	    return "redirect:/pago";
 	}
 
 }
