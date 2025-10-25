@@ -6,7 +6,7 @@
 			}
 			form {
 				width: 300px;
-				margin: 0 auto; /* Centra horizontalmente */
+				margin: 0 auto;
 				padding: 20px;
 				border: 1px solid #ccc;
 				border-radius: 8px;
@@ -20,9 +20,6 @@
 	<body>
 		<h1>Registro</h1>
 		<form action="#" th:action="@{/registro}" th:object="${registro}" method="post">
-			<p>
-				<a href="/login">¿Ya tienes usuario?</a>
-			</p>
 			<p>Nombre: <input type="text" th:field="*{nombre}" required /></p>
 			<p>Apellidos: <input type="text" th:field="*{apellidos}" required /></p>
 			<p>Dirección: <input type="text" th:field="*{direccion}" required /></p>
@@ -37,6 +34,8 @@
 			<p>
 				<input type="submit" value="Submit" /> <input type="reset" value="Reset" />
 			</p>
+			<p><a href="/login">¿Ya tienes usuario?</a></p>
+			<p><a href="/inicio">Volver al inicio</a></p>
 		</form>
 	</body>
 </html>

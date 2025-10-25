@@ -71,7 +71,9 @@ public class Inmueble {
     public void setSolicitudesReserva(Collection<SolicitudReserva> solicitudesReserva) { this.solicitudesReserva = solicitudesReserva; }
 
     // --- Constructores ---
-    public Inmueble() {}
+    public Inmueble() {
+    	super();
+    }
 
     public Inmueble(Long id, Propietario propietario, String calle, String numero, String localizacion,
                     double precioNoche, int capacidad, String tipo) {

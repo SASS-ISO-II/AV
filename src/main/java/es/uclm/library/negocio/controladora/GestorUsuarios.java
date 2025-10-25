@@ -1,4 +1,4 @@
-package es.uclm.library.negocio.controller;
+package es.uclm.library.negocio.controladora;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

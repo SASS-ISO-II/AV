@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Sat Oct 25 15:45:46 CEST 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-1b9e-3a49-0000017f4ee8 
-on database directory C:\Users\sergi\git\AV\database with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 
-Loaded from file:/C:/Users/sergi/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+Sat Oct 25 19:16:24 CEST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-1c5f-0e0d-000001c6d5c8 
+on database directory C:\Users\Adrián\Documents\workspace\AV-LAB\database with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@11a4022a 
+Loaded from file:/C:/Users/Adri%c3%a1n/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=25+36-3489
-user.dir=C:\Users\sergi\git\AV
+java.runtime.version=24.0.2+12-54
+user.dir=C:\Users\Adrián\Documents\workspace\AV-LAB
 os.name=Windows 11
 os.arch=amd64
 os.version=10.0

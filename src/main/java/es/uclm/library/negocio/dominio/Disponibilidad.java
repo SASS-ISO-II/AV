@@ -27,7 +27,7 @@ public class Disponibilidad {
 	private boolean directa;
 	
 	public Disponibilidad() {
-		
+		super();
 	}
 	
 	public Disponibilidad(Long id, Inmueble inmueble, PoliticaCancelacion politicaCancelación, Date fechaInicio,
