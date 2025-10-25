@@ -1,30 +1,33 @@
 package es.uclm.library.negocio.dominio;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 
 @Entity
-public class SolicitudReserva extends Reserva {
-	
-	@Id
+public class SolicitudReserva {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//	
-//	@ManyToOne
-//	Inmueble inmueble;
-	
-	@OneToOne
-	@JsonIgnore
-	Reserva reservaConfirmada;
-	
-	private boolean confirmada;
 
-	public void confirmarReserva() {
-		// TODO - implement SolicitudReserva.confirmarReserva
-		throw new UnsupportedOperationException();
-	}
+    @ManyToOne
+    @JoinColumn(name = "inquilino_id")
+    private Inquilino inquilino;
 
+    @ManyToOne
+    @JoinColumn(name = "inmueble_id")
+    private Inmueble inmueble;
+
+    @OneToOne
+    @JoinColumn(name = "reserva_confirmada_id")
+    private Reserva reservaConfirmada;
+
+    private boolean confirmada;
+
+    public void confirmarReserva(Reserva reserva) {
+        this.reservaConfirmada = reserva;
+        this.confirmada = true;
+    }
+    
 	public SolicitudReserva(Long id, Inmueble inmueble, Reserva reservaConfirmada, boolean confirmada) {
 		super();
 		this.id = id;
@@ -64,11 +67,4 @@ public class SolicitudReserva extends Reserva {
 	public void setConfirmada(boolean confirmada) {
 		this.confirmada = confirmada;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "SolicitudReserva [id=" + id + ", inmueble=" + inmueble + ", reservaConfirmada=" + reservaConfirmada
-//				+ ", confirmada=" + confirmada + "]";
-//	}
-
 }

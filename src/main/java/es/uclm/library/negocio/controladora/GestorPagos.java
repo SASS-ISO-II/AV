@@ -1,6 +1,4 @@
-package es.uclm.library.negocio.controller;
-
-import java.util.UUID;
+package es.uclm.library.negocio.controladora;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,58 +12,47 @@ import org.springframework.web.bind.annotation.PostMapping;
 import es.uclm.library.negocio.dominio.MetodoPago;
 import es.uclm.library.negocio.dominio.Pago;
 import es.uclm.library.negocio.dominio.Reserva;
-import es.uclm.library.persistencia.PagoDAO;
-import es.uclm.library.persistencia.ReservaDAO;
+import es.uclm.library.negocio.servicio.LNPagos;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class GestorPagos {
-	
-	@Autowired
-	private PagoDAO pagoDAO;
 
     @Autowired
-    private ReservaDAO reservaDAO;
+    private LNPagos lnPagos;
 
-	private static final Logger log = LoggerFactory.getLogger(GestorUsuarios.class);
-	
-	@GetMapping("/pago")
+    private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
+
+    @GetMapping("/pago")
     public String mostrarFormularioPago(HttpSession session, Model model) {
-		
-		Reserva reserva = (Reserva) session.getAttribute("reservaActual");
-	    if (reserva == null) return "redirect:/reservar";
-	    
-		model.addAttribute("pago", new Pago());
+        Reserva reserva = (Reserva) session.getAttribute("reservaActual");
+        if (reserva == null) {
+            return "redirect:/reservar";
+        }
+
+        model.addAttribute("pago", new Pago());
         model.addAttribute("metodos", MetodoPago.values());
-	    log.info(pagoDAO.findAll().toString());
         return "pago";
-        
     }
 
     @PostMapping("/pago")
     public String procesarPago(@ModelAttribute Pago pago, HttpSession session, Model model) {
-    	Reserva reserva = (Reserva) session.getAttribute("reservaActual");
-        if (reserva == null) return "redirect:/reservar";
-        
-        pago.setReferencia(UUID.randomUUID());
-        
-        pago.setReserva(reserva);
-        reserva.setPago(pago);
-        
-        pagoDAO.save(pago);
-        reservaDAO.save(reserva);
+        Reserva reserva = (Reserva) session.getAttribute("reservaActual");
+        if (reserva == null) {
+            return "redirect:/reservar";
+        }
 
-        log.info("Pago registrado correctamente: " + pago);
+        Pago pagoRegistrado = lnPagos.registrarPago(pago, reserva);
+        log.info("Pago registrado correctamente: {}", pagoRegistrado);
 
         model.addAttribute("reserva", reserva);
-        model.addAttribute("pago", pago);
-        
+        model.addAttribute("pago", pagoRegistrado);
+
         return "resultadoPago";
     }
 
-	@GetMapping("/resultadoPago")
+    @GetMapping("/resultadoPago")
     public String mostrarResultadoPago() {
         return "resultadoPago";
     }
-	
 }

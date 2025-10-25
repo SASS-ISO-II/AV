@@ -1,45 +1,40 @@
 package es.uclm.library.negocio.dominio;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Reserva {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pago_id")
-	Pago pago;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
-    @JoinColumn(name = "solicitud_id")
-	SolicitudReserva solicitud;
-	
-	@ManyToOne
-    @JoinColumn(name = "inquilino_id")
-	Inquilino inquilino;
-	
-	@ManyToOne
-    @JoinColumn(name = "inmueble_id")
-	Inmueble inmueble;
-	
-	@Enumerated(EnumType.STRING)
-	PoliticaCancelacion politicaCancelacion;
-	
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-	
-	public Reserva() {
-		
-	}
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pago_id")
+    private Pago pago;
+
+    @OneToOne(mappedBy = "reservaConfirmada")
+    private SolicitudReserva solicitud; 
+
+    @ManyToOne
+    @JoinColumn(name = "inquilino_id")
+    private Inquilino inquilino;
+
+    @ManyToOne
+    @JoinColumn(name = "inmueble_id")
+    private Inmueble inmueble;
+
+    @Enumerated(EnumType.STRING)
+    private PoliticaCancelacion politicaCancelacion;
+
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+
+	public Reserva() {
+		super();
+	}
+	
 	public Reserva(Long id, Pago pago, SolicitudReserva solicitud, Inquilino inquilino, Inmueble inmueble,
 			PoliticaCancelacion politicaCancelacion, LocalDate fechaInicio, LocalDate fechaFin) {
 		super();
@@ -51,16 +46,6 @@ public class Reserva {
 		this.politicaCancelacion = politicaCancelacion;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
-	}
-
-	public void isPagado() {
-		// TODO - implement Reserva.isPagado
-		throw new UnsupportedOperationException();
-	}
-
-	public void isActiva() {
-		// TODO - implement Reserva.isActiva
-		throw new UnsupportedOperationException();
 	}
 
 	public Long getId() {
@@ -126,12 +111,15 @@ public class Reserva {
 	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
+	
+    public boolean isPagado() {
+        return pago != null;
+    }
 
-//	@Override
-//	public String toString() {
-//		return "Reserva [id=" + id + ", pago=" + pago + ", solicitud=" + solicitud + ", inquilino=" + inquilino
-//				+ ", inmueble=" + inmueble + ", politicaCancelacion=" + politicaCancelacion + ", fechaInicio="
-//				+ fechaInicio + ", fechaFin=" + fechaFin + "]";
-//	}
+    public boolean isActiva() {
+        LocalDate hoy = LocalDate.now();
+        return (fechaInicio != null && fechaFin != null &&
+                (hoy.isEqual(fechaInicio) || (hoy.isAfter(fechaInicio) && hoy.isBefore(fechaFin))));
+    }
 
 }

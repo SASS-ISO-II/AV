@@ -1,4 +1,4 @@
-package es.uclm.library.negocio.controller;
+package es.uclm.library.negocio.controladora;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
