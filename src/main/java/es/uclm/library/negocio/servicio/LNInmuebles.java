@@ -19,22 +19,14 @@ public class LNInmuebles {
     @Autowired
     private PropietarioDAO propietarioDAO;
 
-    /**
-     * Obtiene el propietario asociado a un login.
-     */
     public Propietario obtenerPropietarioPorLogin(String login) {
         return propietarioDAO.findByLogin(login);
     }
 
-    /**
-     * Registra un nuevo inmueble para un propietario.
-     * 
-     * @return el inmueble guardado, o null si no existe el propietario.
-     */
     public Inmueble registrarInmueble(Inmueble inmueble, String login) {
         Propietario propietario = propietarioDAO.findByLogin(login);
         if (propietario == null) {
-            return null; // No se puede registrar si no existe propietario
+            return null;
         }
 
         inmueble.setPropietario(propietario);
@@ -42,7 +34,7 @@ public class LNInmuebles {
     }
     
     public Collection<Inmueble> obtenerTodos() {
-        return inmuebleDAO.findAll(); // devuelve todos los inmuebles de la BD
+        return inmuebleDAO.findAll();
     }
 
     public Inmueble obtenerInmueblePorId(Long id) {
