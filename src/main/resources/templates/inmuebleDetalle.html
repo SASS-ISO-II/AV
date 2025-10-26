@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Detalle del Inmueble</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        p {
+            margin: 6px 0;
+        }
+        a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalle del Inmueble</h1>
+    <form>
+        <p th:text="'Calle: ' + ${inmueble.calle}"></p>
+        <p th:text="'Número: ' + ${inmueble.numero}"></p>
+        <p th:text="'Localización: ' + ${inmueble.localizacion}"></p>
+        <p th:text="'Precio por noche: ' + ${inmueble.precioNoche} + ' €'"></p>
+        <p th:text="'Capacidad: ' + ${inmueble.capacidad} + ' personas'"></p>
+        <p th:text="'Tipo: ' + ${inmueble.tipo}"></p>
+		<p><a th:href="@{/reservar(inmuebleId=${inmueble.id})}">Reservar este inmueble</a></p>
+        <p><a href="/inmuebles/lista">Volver a ver todos los inmuebles</a></p>
+    </form>
+</body>
+</html>

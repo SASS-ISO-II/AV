@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Listado de Inmuebles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 8px 0;
+        }
+        a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Inmuebles</h1>
+    <form>
+        <ul>
+            <li th:each="inmueble : ${inmuebles}">
+                <a th:href="@{'/inmuebles/detalle/' + ${inmueble.id}}" 
+                   th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
+            </li>
+        </ul>
+        <p><a href="/inicio">Volver al inicio</a></p>
+        <p><a href="/inmuebles/alta">Dar de alta un inmueble</a></p>
+    </form>
+</body>
+</html>

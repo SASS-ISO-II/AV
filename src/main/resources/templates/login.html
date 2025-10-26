@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+	<style>
+		h1 {
+			text-align: center;
+		}
+		form {
+			width: 300px;
+			margin: 0 auto; /* Centra horizontalmente */
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+			background-color: #f9f9f9;
+		}
+	</style>
+	<head>
+		<title>Login de usuario</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<h1>Log-in</h1>
+		<form action="#" th:action="@{/login}" th:object="${login}" method="post">
+			<p>Nombre de usuario: <input type="text" th:field="*{login}" required /></p>
+			<p>Contraseña: <input type="password" th:field="*{pass}" required /></p>
+			<p>
+				<input type="submit" value="Submit" /> <input type="reset" value="Reset" /> 
+			</p>
+			<p><a href="/registro">¿No tienes cuenta? Regístrate</a></p>
+			<p><a href="/inicio">Volver al inicio</a></p>
+		</form>
+	</body>
+</html>

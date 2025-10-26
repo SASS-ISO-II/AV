@@ -1,0 +1,37 @@
+ <!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+	<style>
+		h1 {
+			text-align: center;
+				}
+		form {
+			width: 300px;
+			margin: 0 auto; /* Centra horizontalmente */
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+			background-color: #f9f9f9;
+		}
+	</style>
+	<head>
+		<title>Pago</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<h1>Pago</h1>
+		<p style="text-align:center; font-weight:bold;">
+		    Número de noches: <span th:text="${noches}">0</span><br>
+		    Total a pagar: <span th:text="${totalAPagar}">0</span> €
+		</p>
+		<form action="#" th:action="@{/pago}" th:object="${pago}" method="post">
+		    <label for="metodo">Método de pago:</label>
+		    <select id="metodo" th:field="*{metodo}">
+		        <option th:each="m : ${metodos}" th:value="${m}" th:text="${m}"></option>
+		    </select>
+		    <br><br>
+		    <button type="submit">Realizar Pago</button>
+		    <br><br>
+		    <a href="/inicio">Volver al inicio</a>
+		</form>
+	</body>
+</html>
