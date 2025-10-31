@@ -30,7 +30,14 @@ public class LNReservas {
 
     public boolean validarFechas(Reserva reserva) {
         LocalDate hoy = LocalDate.now();
-        return !reserva.getFechaInicio().isBefore(hoy) && !reserva.getFechaFin().isBefore(hoy);
+        
+        if (reserva.getFechaInicio().isBefore(hoy) || reserva.getFechaFin().isBefore(hoy)) {
+            return false;
+        }
+        if (reserva.getFechaFin().isBefore(reserva.getFechaInicio())) {
+            return false;
+        }
+        return true;
     }
 
     public boolean haySolapamiento(Inmueble inmueble, LocalDate inicio, LocalDate fin) {
@@ -80,8 +87,13 @@ public class LNReservas {
             return "error";
         }
 
+        if (reserva.getFechaFin().isBefore(reserva.getFechaInicio())) {
+            model.addAttribute("error", "La fecha de salida no puede ser anterior a la fecha de inicio.");
+            return "error";
+        }
+
         if (!validarFechas(reserva)) {
-            model.addAttribute("error", "No se pueden seleccionar fechas pasadas");
+            model.addAttribute("error", "No se pueden seleccionar fechas pasadas.");
             return "error";
         }
 
