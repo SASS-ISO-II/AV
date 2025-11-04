@@ -1,46 +1,114 @@
- <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
-	<style>
-		h1 {
-			text-align: center;
-				}
-		form {
-			width: 300px;
-			margin: 0 auto;
-			padding: 20px;
-			border: 1px solid #ccc;
-			border-radius: 8px;
-			background-color: #f9f9f9;
-		}
-	</style>
-	<head>
-		<title>Reserva</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		<h1>Reservar</h1>
-		<form action="#" th:action="@{/reservar}" th:object="${reserva}" method="post">
-			<div th:if="${inmueble}">
-			    <h3>Inmueble seleccionado</h3>
-			    <p th:text="'Calle: ' + ${inmueble.calle}"></p>
-			    <p th:text="'Número: ' + ${inmueble.numero}"></p>
-			    <p th:text="'Precio por noche: ' + ${inmueble.precioNoche} + ' €'"></p>
-			</div>
-			<p>Fecha inicio: <input type="date" th:field="*{fechaInicio}" required /></p>
-        	<p>Fecha fin: <input type="date" th:field="*{fechaFin}" required /></p>
-			<div th:if="${error}" class="error-message">
-			    <p th:text="${error}"></p>
-			</div>
-			<p>Fechas ya reservadas:</p>
-			<ul>
-			    <li th:each="res : ${reservasExistentes}">
-			        <span th:text="${res.fechaInicio}"></span> - 
-			        <span th:text="${res.fechaFin}"></span>
-			    </li>
-			</ul>
-			<p>
-				<input type="submit" value="Submit" /> <input type="reset" value="Reset" /> 
-			</p>
-		</form>
-	</body>
+<head>
+    <title>Reserva</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Reservar</h1>
+
+<form action="#" th:action="@{/reservar}" th:object="${reserva}" method="post">
+
+    
+    <div th:if="${inmueble}">
+        <h3>Inmueble seleccionado</h3>
+        <p th:text="'Calle: ' + ${inmueble.calle}"></p>
+        <p th:text="'Número: ' + ${inmueble.numero}"></p>
+        <p th:text="'Precio por noche: ' + ${inmueble.precioNoche} + ' €'"></p>
+    </div>
+
+    
+    <p>Fecha inicio:
+        <input type="date" th:field="*{fechaInicio}" name="fechaInicio" required />
+    </p>
+
+    <p>Fecha fin:
+        <input type="date" th:field="*{fechaFin}" name="fechaFin" required />
+    </p>
+
+    
+    <div id="politicaBlock" style="display:none;">
+        <p>
+            <strong>Política de cancelación:</strong>
+            <span id="politicaTexto"></span>
+        </p>
+    </div>
+
+    
+    <input type="hidden" id="politicaHidden" name="politicaCancelacion" />
+
+    <!-- Errores -->
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+
+   
+    <p>Fechas ya reservadas:</p>
+    <ul>
+        <li th:each="res : ${reservasExistentes}">
+            <span th:text="${res.fechaInicio}"></span> -
+            <span th:text="${res.fechaFin}"></span>
+        </li>
+    </ul>
+
+    <p>
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+    </p>
+
+</form>
+
+
+<script>
+    function calcularPolitica() {
+        const inicio = document.querySelector("input[name='fechaInicio']").value;
+        const fin = document.querySelector("input[name='fechaFin']").value;
+
+        if (!inicio || !fin) return;
+
+        const fechaInicio = new Date(inicio);
+        const fechaFin = new Date(fin);
+
+        const diferenciaMs = fechaFin - fechaInicio;
+        const dias = diferenciaMs / (1000 * 60 * 60 * 24);
+
+        let politica = "";
+
+        if (dias <= 3) {
+            politica = "REEMBOLSABLE";
+        } else if (dias <= 8) {
+            politica = "REEMBOLSABLE_50_PER";
+        } else {
+            politica = "NO_REEMBOLSABLE";
+        }
+
+        
+        document.getElementById("politicaBlock").style.display = "block";
+        document.getElementById("politicaTexto").innerText = politica;
+
+        
+        document.getElementById("politicaHidden").value = politica;
+    }
+
+    
+    document.querySelector("input[name='fechaInicio']").addEventListener("change", calcularPolitica);
+    document.querySelector("input[name='fechaFin']").addEventListener("change", calcularPolitica);
+</script>
+
+</body>
 </html>
