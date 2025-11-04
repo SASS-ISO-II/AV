@@ -3,6 +3,7 @@
 <head>
     <title>Listado de Inmuebles</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     <style>
         h1 {
             text-align: center;
@@ -29,19 +30,64 @@
         a:hover {
             text-decoration: underline;
         }
+        .buscador {
+            margin-bottom: 30px;
+        }
     </style>
 </head>
+
 <body>
-    <h1>Listado de Inmuebles</h1>
-    <form>
-        <ul>
-            <li th:each="inmueble : ${inmuebles}">
-                <a th:href="@{'/inmuebles/detalle/' + ${inmueble.id}}" 
-                   th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
-            </li>
-        </ul>
-        <p><a href="/inicio">Volver al inicio</a></p>
-        <p><a href="/inmuebles/alta">Dar de alta un inmueble</a></p>
-    </form>
+
+<h1>Listado de Inmuebles</h1>
+
+<!-- ✅ FORMULARIO DE BÚSQUEDA AÑADIDO SIN BORRAR NADA -->
+
+<form class="buscador" th:action="@{/inmuebles/buscar}" method="get">
+
+    <p>
+        <label>Localización:</label>
+        <input type="text" name="localizacion" th:value="${localizacion}">
+    </p>
+
+    <p>
+        <label>Precio máximo:</label>
+        <input type="number" name="precioMax" min="0" step="0.1" th:value="${precioMax}">
+    </p>
+
+    <p>
+        <label>Capacidad mínima:</label>
+        <input type="number" name="capacidad" min="1" th:value="${capacidad}">
+    </p>
+
+    <p>
+        <label>Tipo:</label>
+        <select name="tipo">
+            <option value="todos" th:selected="${tipo == 'todos'}">Todos</option>
+            <option value="Habitación individual" th:selected="${tipo == 'Habitación individual'}">Habitación individual</option>
+            <option value="Apartamento completo" th:selected="${tipo == 'Apartamento completo'}">Apartamento completo</option>
+            <option value="Casa" th:selected="${tipo == 'Casa'}">Casa</option>
+        </select>
+    </p>
+
+    <p>
+        <button type="submit">Buscar</button>
+        <a href="/inmuebles"><button type="button">Limpiar filtros</button></a>
+    </p>
+
+</form>
+
+<!-- ✅ TU FORMULARIO ORIGINAL SIN CAMBIAR NADA -->
+<form>
+    <ul>
+        <li th:each="inmueble : ${inmuebles}">
+            <a th:href="@{'/inmuebles/detalle/' + ${inmueble.id}}" 
+               th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
+        </li>
+    </ul>
+
+    <p><a href="/inicio">Volver al inicio</a></p>
+    <p><a href="/inmuebles/alta">Dar de alta un inmueble</a></p>
+</form>
+
 </body>
 </html>

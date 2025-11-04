@@ -35,7 +35,6 @@
 
 <h2>Dar de alta un inmueble</h2>
 
-<!-- Mensajes -->
 <p th:if="${mensaje}" th:text="${mensaje}" class="mensaje"></p>
 <p th:if="${error}" th:text="${error}" class="error"></p>
 
@@ -44,7 +43,7 @@
     <p>Debes <a href="/login">iniciar sesión</a> antes de poder registrar un inmueble.</p>
 </div>
 
-<!-- Mostrar mensaje si sí está logueado -->
+
 <div th:if="${estaLogueado}" style="text-align:center; margin-bottom:15px;">
     <p>Propietario logueado: <b th:text="${propietario.login}"></b></p>
 </div>

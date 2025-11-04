@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Inmuebles</title>
+</head>
+
+<body>
+
+<h1>Buscar inmuebles</h1>
+
+<form th:action="@{/buscar/resultados}" method="get">
+
+    <p>Localización:
+        <input type="text" name="localizacion" th:value="${localizacion}">
+    </p>
+
+    <p>Precio máximo por noche:
+        <input type="number" step="0.01" name="precioMax" th:value="${precioMax}">
+    </p>
+
+    <p>Capacidad mínima:
+        <input type="number" name="capacidadMin" th:value="${capacidadMin}">
+    </p>
+
+    <p>Tipo:
+        <select name="tipo">
+            <option value="">Cualquier tipo</option>
+            <option value="Habitación individual"
+                th:selected="${tipo == 'Habitación individual'}">Habitación individual</option>
+
+            <option value="Apartamento completo"
+                th:selected="${tipo == 'Apartamento completo'}">Apartamento completo</option>
+
+            <option value="Casa"
+                th:selected="${tipo == 'Casa'}">Casa</option>
+        </select>
+    </p>
+
+    <input type="submit" value="Buscar"/>
+</form>
+
+<hr/>
+
+<h2>Resultados:</h2>
+
+<div th:if="${resultados != null}">
+    <div th:if="${#lists.isEmpty(resultados)}">
+        <p>No se encontraron inmuebles.</p>
+    </div>
+
+    <div th:each="i : ${resultados}" style="border:1px solid gray; padding:10px; margin-bottom:10px;">
+        <p><strong>Localización:</strong> <span th:text="${i.localizacion}"></span></p>
+        <p><strong>Calle:</strong> <span th:text="${i.calle}"></span></p>
+        <p><strong>Precio:</strong> <span th:text="${i.precioNoche}"></span> €/noche</p>
+        <p><strong>Capacidad:</strong> <span th:text="${i.capacidad}"></span></p>
+        <p><strong>Tipo:</strong> <span th:text="${i.tipo}"></span></p>
+
+        <a th:href="@{'/reservar?inmuebleId=' + ${i.id}}">Reservar</a>
+    </div>
+</div>
+
+</body>
+</html>
