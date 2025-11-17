@@ -25,7 +25,7 @@ public class GestorReservas {
     @Autowired
     private LNReservas lnReservas;
 
-    @GetMapping("/reservar")
+    @GetMapping("/reserva")
     public String mostrarFormularioReserva(@RequestParam(name="inmuebleId", required=false) Long inmuebleId,
                                            Model model,
                                            HttpSession session) {
@@ -36,17 +36,17 @@ public class GestorReservas {
         Inmueble inmueble = lnReservas.obtenerInmuebleParaReserva(inmuebleId, session, model);
         if (inmueble == null) {
             model.addAttribute("error", "Debes seleccionar un inmueble antes de reservar.");
-            return "redirect:/inmuebles/lista";
+            return "redirect:/inmueble";
         }
 
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmueble", inmueble);
         model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
 
-        return "reservar";
+        return "reserva";
     }
 
-    @PostMapping("/reservar")
+    @PostMapping("/reserva")
     public String procesarReserva(@ModelAttribute("reserva") Reserva reserva,
                                   HttpSession session,
                                   Model model,
@@ -94,7 +94,7 @@ public class GestorReservas {
             Inmueble inmueble = (Inmueble) session.getAttribute("inmuebleActual");
             model.addAttribute("inmueble", inmueble);
             model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
-            return "reservar";
+            return "reserva";
         }
 
         return "redirect:/pago";

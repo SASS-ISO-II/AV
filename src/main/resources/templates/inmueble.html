@@ -37,12 +37,10 @@
 </head>
 
 <body>
-
+	
 <h1>Listado de Inmuebles</h1>
 
-<!-- ✅ FORMULARIO DE BÚSQUEDA AÑADIDO SIN BORRAR NADA -->
-
-<form class="buscador" th:action="@{/inmuebles/buscar}" method="get">
+<form class="buscador" th:action="@{/inmueble/buscar}" method="get">
 
     <p>
         <label>Localización:</label>
@@ -71,23 +69,20 @@
 
     <p>
         <button type="submit">Buscar</button>
-        <a href="/inmuebles"><button type="button">Limpiar filtros</button></a>
+        <a href="/inmueble"><button type="button">Limpiar filtros</button></a>
     </p>
 
 </form>
-
-<!-- ✅ TU FORMULARIO ORIGINAL SIN CAMBIAR NADA -->
-<form>
-    <ul>
-        <li th:each="inmueble : ${inmuebles}">
-            <a th:href="@{'/inmuebles/detalle/' + ${inmueble.id}}" 
-               th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
-        </li>
-    </ul>
-
-    <p><a href="/inicio">Volver al inicio</a></p>
-    <p><a href="/inmuebles/alta">Dar de alta un inmueble</a></p>
-</form>
-
+    <h1>Listado de Inmuebles</h1>
+    <form>
+        <ul>
+            <li th:each="inmueble : ${inmuebles}">
+                <a th:href="@{'/detalle/' + ${inmueble.id}}" 
+                   th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
+            </li>
+        </ul>
+        <p><a href="/inicio">Volver al inicio</a></p>
+        <p><a href="/alta">Dar de alta un inmueble</a></p>
+    </form>
 </body>
 </html>

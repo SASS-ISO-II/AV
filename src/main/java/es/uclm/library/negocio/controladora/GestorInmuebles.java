@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/inmuebles")
 public class GestorInmuebles {
 
     @Autowired
@@ -31,7 +30,7 @@ public class GestorInmuebles {
 
         if (usuario == null) {
             model.addAttribute("estaLogueado", false);
-            return "alta-inmueble";
+            return "alta";
         }
 
         Propietario propietario = lnInmuebles.obtenerPropietarioPorLogin(usuario.getLogin());
@@ -43,11 +42,11 @@ public class GestorInmuebles {
             model.addAttribute("propietario", propietario);
         }
 
-        return "alta-inmueble";
+        return "alta";
         
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/alta")
     public String guardarInmueble(@ModelAttribute("inmueble") Inmueble inmueble,
             Model model, HttpSession session) {
 
@@ -56,7 +55,7 @@ public class GestorInmuebles {
     	if (usuario == null) {
     			model.addAttribute("error", "Debes iniciar sesión como propietario para registrar un inmueble.");
     			model.addAttribute("estaLogueado", false);
-    			return "alta-inmueble";
+    			return "alta";
     	}	
     	
     	Propietario propietario = lnInmuebles.obtenerPropietarioPorLogin(usuario.getLogin());
@@ -64,7 +63,7 @@ public class GestorInmuebles {
     	if (propietario == null) {
     		model.addAttribute("error", "Solo los propietarios pueden registrar inmuebles.");
     		model.addAttribute("estaLogueado", false);
-    		return "alta-inmueble";
+    		return "alta";
     	}
     	
         Inmueble inmuebleGuardado = lnInmuebles.registrarInmueble(inmueble, propietario.getLogin());
@@ -74,12 +73,12 @@ public class GestorInmuebles {
         
         if (inmuebleGuardado == null) {
             model.addAttribute("error", "Debes iniciar sesión como propietario para registrar un inmueble.");
-            return "alta-inmueble";
+            return "alta";
         }
 
         model.addAttribute("mensaje", "Inmueble registrado correctamente.");
 
-        return "redirect:/inmuebles/exito";
+        return "redirect:/exito";
     }
     
     @GetMapping("/exito")
@@ -87,21 +86,21 @@ public class GestorInmuebles {
         return "exito";
     }
     
-    @GetMapping("/lista")
-    public String listarInmuebles(Model model) {
-        model.addAttribute("inmuebles", lnInmuebles.obtenerTodos());
-        return "mostrarInmuebles";
-    }
+//    @GetMapping("/inmueble")
+//    public String listarInmuebles(Model model) {
+//        model.addAttribute("inmuebles", lnInmuebles.obtenerTodos());
+//        return "inmueble";
+//    }
 
     @GetMapping("/detalle/{id}")
     public String detalleInmueble(@PathVariable Long id, Model model) {
         Inmueble inmueble = lnInmuebles.obtenerInmueblePorId(id);
         if (inmueble == null) {
             model.addAttribute("error", "El inmueble no existe.");
-            return "redirect:/inmuebles/lista";
+            return "redirect:/inmueble";
         }
         model.addAttribute("inmueble", inmueble);
-        return "inmuebleDetalle";
+        return "detalle";
     }
 
 }

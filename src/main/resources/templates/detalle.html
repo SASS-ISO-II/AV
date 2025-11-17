@@ -36,8 +36,8 @@
         <p th:text="'Precio por noche: ' + ${inmueble.precioNoche} + ' €'"></p>
         <p th:text="'Capacidad: ' + ${inmueble.capacidad} + ' personas'"></p>
         <p th:text="'Tipo: ' + ${inmueble.tipo}"></p>
-		<p><a th:href="@{/reservar(inmuebleId=${inmueble.id})}">Reservar este inmueble</a></p>
-        <p><a href="/inmuebles/lista">Volver a ver todos los inmuebles</a></p>
+		<p><a th:href="@{/reserva(inmuebleId=${inmueble.id})}">Reservar este inmueble</a></p>
+        <p><a href="/inmueble">Volver a ver todos los inmuebles</a></p>
     </form>
 </body>
 </html>

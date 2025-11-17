@@ -38,17 +38,15 @@
 <p th:if="${mensaje}" th:text="${mensaje}" class="mensaje"></p>
 <p th:if="${error}" th:text="${error}" class="error"></p>
 
-<!-- Si NO está logueado, mostrar aviso -->
 <div th:if="${!estaLogueado}" class="aviso">
     <p>Debes <a href="/login">iniciar sesión</a> antes de poder registrar un inmueble.</p>
 </div>
-
 
 <div th:if="${estaLogueado}" style="text-align:center; margin-bottom:15px;">
     <p>Propietario logueado: <b th:text="${propietario.login}"></b></p>
 </div>
 
-<form th:action="@{/inmuebles/guardar}" th:object="${inmueble}" method="post">
+<form th:action="@{/alta}" th:object="${inmueble}" method="post">
     <fieldset th:attr="disabled=${!estaLogueado}">
 
         <label>Calle:</label>

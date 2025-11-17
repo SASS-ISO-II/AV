@@ -23,7 +23,7 @@ public class GestorBusquedas {
 
 
     
-    @GetMapping("/inmuebles")
+    @GetMapping("/inmueble")
     public String mostrarInmuebles(Model model) {
 
         
@@ -37,13 +37,13 @@ public class GestorBusquedas {
         model.addAttribute("capacidad", "");
         model.addAttribute("tipo", "todos");
 
-        return "mostrarInmuebles";
+        return "inmueble";
 
     }
 
 
    
-    @GetMapping("/inmuebles/buscar")
+    @GetMapping("/inmueble/buscar")
     public String buscar(
             @RequestParam(required = false) String localizacion,
             @RequestParam(required = false) Double precioMax,
@@ -62,7 +62,7 @@ public class GestorBusquedas {
         model.addAttribute("capacidad", capacidad != null ? capacidad : "");
         model.addAttribute("tipo", tipo != null ? tipo : "todos");
 
-        return "mostrarInmuebles";
+        return "inmueble";
 
     }
 }

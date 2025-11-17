@@ -31,7 +31,7 @@ public class GestorPagos {
     public String mostrarFormularioPago(HttpSession session, Model model) {
         Reserva reserva = (Reserva) session.getAttribute("reservaActual");
         if (reserva == null) {
-            return "redirect:/reservar";
+            return "redirect:/reserva";
         }
 
         model.addAttribute("pago", new Pago());
@@ -47,7 +47,7 @@ public class GestorPagos {
     public String procesarPago(@ModelAttribute Pago pago, HttpSession session, Model model) {
         Reserva reserva = (Reserva) session.getAttribute("reservaActual");
         if (reserva == null) {
-            return "redirect:/reservar";
+            return "redirect:/reserva";
         }
         
 		lnReservas.guardarReserva(reserva);
