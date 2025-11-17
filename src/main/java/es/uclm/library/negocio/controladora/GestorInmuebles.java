@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class GestorInmuebles {
@@ -76,21 +75,17 @@ public class GestorInmuebles {
             return "alta";
         }
 
+       
+        model.addAttribute("popupExito", true);
+
+        
         model.addAttribute("mensaje", "Inmueble registrado correctamente.");
 
-        return "redirect:/exito";
+       
+        return "alta";
     }
-    
-    @GetMapping("/exito")
-    public String mostrarConfirmacion() {
-        return "exito";
-    }
-    
-//    @GetMapping("/inmueble")
-//    public String listarInmuebles(Model model) {
-//        model.addAttribute("inmuebles", lnInmuebles.obtenerTodos());
-//        return "inmueble";
-//    }
+
+  
 
     @GetMapping("/detalle/{id}")
     public String detalleInmueble(@PathVariable Long id, Model model) {

@@ -3,33 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <title>Alta de Inmueble</title>
+
     <style>
+
+        /* ------------------ ESTILO GENERAL ------------------ */
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            background: #f5f5f7;
+            margin: 0;
+            padding: 30px;
+        }
+
         h2 {
             text-align: center;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1d1d1f;
         }
-        form {
-            width: 400px;
+
+        /* ------------------ FORMULARIO ------------------ */
+
+        .form-container {
+            width: 420px;
             margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            animation: fadeIn 0.35s ease-out;
         }
+
+        label {
+            font-weight: 500;
+            margin-top: 12px;
+            display: block;
+            color: #333;
+        }
+
         input, select {
             width: 100%;
-            margin-top: 5px;
-            padding: 6px;
-            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #d2d2d7;
+            background: #fdfdfd;
+            font-size: 15px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
         }
+
+        input:focus, select:focus {
+            border-color: #0071e3;
+            box-shadow: 0 0 6px rgba(0, 113, 227, 0.3);
+            outline: none;
+        }
+
         button {
-            margin-top: 15px;
+            margin-top: 18px;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
+            border: none;
+            background: #000;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: opacity 0.2s ease, transform 0.1s ease;
         }
-        .mensaje { color: green; text-align: center; }
-        .error { color: red; text-align: center; }
-        .aviso { text-align: center; color: red; margin-bottom: 15px; }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .link-volver {
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+        }
+
+        /* ------------------ MENSAJES ------------------ */
+
+        .mensaje {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .aviso {
+            text-align: center;
+            color: red;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* ------------------ POPUP (MODAL) ------------------ */
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.45);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease-out;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 330px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            animation: scaleIn 0.28s ease-out;
+        }
+
+        .checkmark {
+            font-size: 45px;
+            color: #0a8400;
+            animation: popCheck 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes popCheck {
+            0% { transform: scale(0.4); opacity: 0; }
+            60% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
     </style>
+
 </head>
 <body>
 
@@ -46,37 +174,61 @@
     <p>Propietario logueado: <b th:text="${propietario.login}"></b></p>
 </div>
 
+<div class="form-container">
+
 <form th:action="@{/alta}" th:object="${inmueble}" method="post">
     <fieldset th:attr="disabled=${!estaLogueado}">
 
         <label>Calle:</label>
-        <input type="text" th:field="*{calle}" required><br><br>
+        <input type="text" th:field="*{calle}" required>
 
         <label>Número:</label>
-        <input type="text" th:field="*{numero}" required><br><br>
+        <input type="text" th:field="*{numero}" required>
 
         <label>Localización (ciudad/pueblo):</label>
-        <input type="text" th:field="*{localizacion}" required><br><br>
+        <input type="text" th:field="*{localizacion}" required>
 
         <label>Precio por noche (€):</label>
-        <input type="number" step="0.01" th:field="*{precioNoche}" required><br><br>
+        <input type="number" step="0.01" th:field="*{precioNoche}" required>
 
         <label>Capacidad (número de inquilinos):</label>
-        <input type="number" th:field="*{capacidad}" min="1" required><br><br>
+        <input type="number" th:field="*{capacidad}" min="1" required>
 
         <label>Tipo de inmueble:</label>
         <select th:field="*{tipo}">
             <option value="Habitación individual">Habitación individual</option>
             <option value="Apartamento completo">Apartamento completo</option>
-            <option value="Casa">Casa</option>
-        </select><br><br>
+            <option value="Casa ">Casa </option>
+        </select>
 
         <button type="submit">Guardar</button>
-		
-		<p><a href="/inicio">Volver al inicio</a></p>
+
+        <a class="link-volver" href="/inicio">Volver al inicio</a>
 
     </fieldset>
 </form>
+
+</div>
+
+<!-- ------------------ POPUP DE ÉXITO ------------------ -->
+<div th:if="${popupExito}" class="modal" id="popupExito">
+    <div class="modal-content">
+
+        <div class="checkmark">✔️</div>
+
+        <h3 style="margin-top: 10px;">Inmueble guardado</h3>
+        <p>El inmueble se ha registrado correctamente.</p>
+
+        <button onclick="cerrarPopup()" style="margin-top: 20px; width: 100%;">Aceptar</button>
+    </div>
+</div>
+
+<!-- ------------------ SCRIPT ------------------ -->
+<script>
+function cerrarPopup() {
+    document.getElementById("popupExito").style.display = "none";
+}
+</script>
 
 </body>
 </html>
