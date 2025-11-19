@@ -24,7 +24,7 @@
             font-weight: 700;
         }
 
-        /* === Imagen superior === */
+        
         .top-image-box {
             width: 80%;
             margin: 0 auto 40px;
@@ -38,7 +38,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
 
-        /* === Tarjeta buscador === */
+        
         .search-card {
             width: 520px;
             margin: 0 auto;
@@ -94,7 +94,7 @@
             font-weight: 600;
         }
 
-        /* === Tarjeta de inmuebles === */
+       
         .list-card {
             width: 680px;
             margin: 50px auto;
@@ -168,7 +168,7 @@
 </div>
 
 
-<!-- BUSCADOR -->
+
 <div class="search-card">
     <form th:action="@{/inmueble/buscar}" method="get">
 
@@ -197,7 +197,7 @@
 </div>
 
 
-<!-- RESULTADOS -->
+
 <div class="list-card">
     <div th:each="inmueble : ${inmuebles}" class="item">
         <a th:href="@{'/detalle/' + ${inmueble.id}}"

@@ -26,7 +26,7 @@
             margin-bottom: 30px;
         }
 
-        /* TARJETA FORMULARIO */
+        
         .card {
             width: 520px;
             margin: 0 auto;
@@ -79,7 +79,7 @@
             background: #163236;
         }
 
-        /* RESULTADOS */
+        
         h2 {
             text-align: center;
             font-size: 30px;
@@ -123,9 +123,7 @@
 
 <h1>Buscar inmuebles</h1>
 
-<!-- =====================================
-              FORMULARIO
-===================================== -->
+
 <div class="card">
 
     <form th:action="@{/buscar/resultados}" method="get">
@@ -165,9 +163,7 @@
 </div>
 
 
-<!-- =====================================
-              RESULTADOS
-===================================== -->
+
 <h2>Resultados</h2>
 
 <div th:if="${resultados != null}">
