@@ -29,12 +29,15 @@
 .DS_Store
 
 ###############################################
-# LOGS Y BASE DE DATOS LOCALES.
+# LOGS Y BASES DE DATOS LOCALES.
 ###############################################
 
 # Carpeta donde se almacenan logs locales.
 log/
 derby.log
+
+# Carpeta principal de la base Derby
+/database/
 
 ###############################################
 # DEPENDENCIAS Y HERRAMIENTAS.

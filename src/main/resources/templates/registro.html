@@ -109,6 +109,7 @@ button:active, .btn:active { transform: scale(0.97); }
     text-decoration: none;
 }
 .link:hover { text-decoration: underline; }
+.error { color: red; text-align: center; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -125,7 +126,7 @@ button:active, .btn:active { transform: scale(0.97); }
 
 <div class="form-card">
     <h2>Registro de Usuario</h2>
-
+	<p th:if="${error}" th:text="${error}" class="error"></p>
     <form th:action="@{/registro}" th:object="${registro}" method="post">
 
         <label>Nombre:</label>

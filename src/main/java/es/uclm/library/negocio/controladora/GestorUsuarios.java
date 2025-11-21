@@ -41,7 +41,12 @@ public class GestorUsuarios {
 	
 	@PostMapping("/registro")
 	public String loginUsuario(@RequestParam("tipoUsuario") String tipoUsuario, @ModelAttribute("registro") Usuario usuario, Model model) {
-
+		
+		if (!usuario.getLogin().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+	        model.addAttribute("error", "El login debe ser un correo electrónico válido.");
+	        return "registro";
+	    }
+		
 	    if ("propietario".equalsIgnoreCase(tipoUsuario)) {
 	        Propietario propietario = new Propietario();
 	        copiarDatos(usuario, propietario);
