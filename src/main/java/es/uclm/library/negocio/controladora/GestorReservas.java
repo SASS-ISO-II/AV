@@ -6,6 +6,12 @@ import es.uclm.library.negocio.dominio.Usuario;
 import es.uclm.library.negocio.servicio.LNReservas;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,10 +44,24 @@ public class GestorReservas {
             model.addAttribute("error", "Debes seleccionar un inmueble antes de reservar.");
             return "redirect:/inmueble";
         }
+        
+        Collection<Reserva> reservasOriginales = lnReservas.obtenerReservasPorInmueble(inmueble);
 
+        List<Reserva> reservasFiltradas = new ArrayList<>();
+
+        LocalDate hoy = LocalDate.now();
+
+        for (Reserva r : reservasOriginales) {
+            if (!r.getFechaFin().isBefore(hoy)) { 
+                reservasFiltradas.add(r);
+            }
+        }
+
+        model.addAttribute("reservasExistentes", reservasFiltradas);
+        
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmueble", inmueble);
-        model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
+        //model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
 
         return "reserva";
     }
