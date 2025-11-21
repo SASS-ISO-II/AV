@@ -12,6 +12,7 @@
 				border-radius: 8px;
 				background-color: #f9f9f9;
 			}
+			.error { color: red; text-align: center; }
 		</style>
 	<head>
 		<title>Registro de usuario</title>
@@ -19,6 +20,9 @@
 	</head>
 	<body>
 		<h1>Registro</h1>
+		
+			<p th:if="${error}" th:text="${error}" class="error"></p>
+
 		<form action="#" th:action="@{/registro}" th:object="${registro}" method="post">
 			<p>Nombre: <input type="text" th:field="*{nombre}" required /></p>
 			<p>Apellidos: <input type="text" th:field="*{apellidos}" required /></p>
