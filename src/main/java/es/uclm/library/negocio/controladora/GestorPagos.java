@@ -49,18 +49,21 @@ public class GestorPagos {
         if (reserva == null) {
             return "redirect:/reserva";
         }
-        
-		lnReservas.guardarReserva(reserva);
+
+        lnReservas.guardarReserva(reserva);
 
         Pago pagoRegistrado = lnPagos.registrarPago(pago, reserva);
         log.info("Pago registrado correctamente: {}", pagoRegistrado);
-        
+
         session.removeAttribute("reservaActual");
 
         model.addAttribute("reserva", reserva);
         model.addAttribute("pago", pagoRegistrado);
 
-        return "resultadoPago";
+        
+        model.addAttribute("popupPago", true);
+        
+        return "pago";
     }
 
     @GetMapping("/resultadoPago")
