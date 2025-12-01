@@ -36,8 +36,12 @@
 log/
 derby.log
 
-# Carpeta principal de la base Derby
-/database/
+# Ficheros de la carpeta database 
+database/db.lck
+database/log/
+database/seg0/
+database/*.lck
+database/*.dat
 
 ###############################################
 # DEPENDENCIAS Y HERRAMIENTAS.
