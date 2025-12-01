@@ -36,6 +36,13 @@
 log/
 derby.log
 
+#Carpeta databse
+database/db.lck
+database/log/
+database/seg0/
+database/*.lck
+database/*.dat
+
 ###############################################
 # DEPENDENCIAS Y HERRAMIENTAS.
 ###############################################
