@@ -19,8 +19,8 @@ public class ListaDeseos {
 	Inquilino usuario;
 	
 	@ManyToMany
-	Collection<Inmueble> inmuebles;
-	
+	private Collection<Inmueble> inmuebles = new ArrayList<>();
+
 	public ListaDeseos() {
 		
 	}

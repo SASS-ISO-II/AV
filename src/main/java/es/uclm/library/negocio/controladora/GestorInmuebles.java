@@ -3,6 +3,7 @@ package es.uclm.library.negocio.controladora;
 import es.uclm.library.negocio.dominio.Inmueble;
 import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
+import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.servicio.LNInmuebles;
 import jakarta.servlet.http.HttpSession;
 
@@ -88,12 +89,20 @@ public class GestorInmuebles {
   
 
     @GetMapping("/detalle/{id}")
-    public String detalleInmueble(@PathVariable Long id, Model model) {
+    public String detalleInmueble(@PathVariable Long id, Model model, HttpSession session) {
         Inmueble inmueble = lnInmuebles.obtenerInmueblePorId(id);
         if (inmueble == null) {
             model.addAttribute("error", "El inmueble no existe.");
             return "redirect:/inmueble";
         }
+
+        Object usuario = session.getAttribute("usuarioAutenticado");
+
+        boolean estaLogueado = usuario != null;
+        boolean esInquilino = usuario instanceof Inquilino;
+
+        model.addAttribute("estaLogueado", estaLogueado);
+        model.addAttribute("esInquilino", esInquilino);
         model.addAttribute("inmueble", inmueble);
         return "detalle";
     }

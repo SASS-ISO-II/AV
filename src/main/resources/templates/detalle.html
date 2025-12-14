@@ -198,9 +198,16 @@
     </div>
 
     <br>
+    
     <p><a th:href="@{/reserva(inmuebleId=${inmueble.id})}">Reservar este inmueble</a></p>
+    <p th:if="${estaLogueado and esInquilino}"><a th:href="@{/listaDeseos/agregar/{id}(id=${inmueble.id})}"
+       style="color:#C2185B; font-weight:700;">
+        ❤️ Añadir a mi Lista de Deseos
+    </a></p>
+	<p th:if="${!estaLogueado}"><a href="/login">Inicia sesión para añadir a favoritos</a></p>
+	<p th:if="${estaLogueado and !esInquilino}">Solo los inquilinos pueden añadir a la Lista de Deseos</p>
     <p><a href="/inmueble">Volver a ver todos los inmuebles</a></p>
-</div>
+	</div>
 
 
 

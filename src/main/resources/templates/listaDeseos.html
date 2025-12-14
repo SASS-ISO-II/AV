@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Lista de Deseos</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #F3E9DA 0%, #F3E9DA 50%, #6AA89B 50%);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 40px 0 20px;
+            color: #1A3C40;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .mensaje, .error {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .mensaje { color: #2E7D32; }
+        .error { color: #C62828; }
+
+        .contenedor {
+            width: 85%;
+            margin: 0 auto 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+        }
+
+        .card {
+            background: #FAF4E8;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.22);
+            border: 2px solid #E6D9C5;
+            color: #1A3C40;
+            font-size: 18px;
+            line-height: 1.55;
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            margin: 6px 0;
+        }
+
+        .acciones a {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #C2185B;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .acciones a:hover {
+            background: #AD1457;
+        }
+
+        .vacio {
+            text-align: center;
+            font-size: 20px;
+            color: #1A3C40;
+            margin-bottom: 50px;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #1A3C40;
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .volver:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>❤️ Mi Lista de Deseos</h1>
+
+<p th:if="${mensaje}" th:text="${mensaje}" class="mensaje"></p>
+<p th:if="${error}" th:text="${error}" class="error"></p>
+
+<!-- Usuario no logueado -->
+<div th:if="${!estaLogueado}">
+    <p class="error">
+        Debes <a href="/login">iniciar sesión</a> para ver tu lista de deseos.
+    </p>
+</div>
+
+<!-- Usuario logueado -->
+<div th:if="${estaLogueado}">
+
+    <div th:if="${#lists.isEmpty(inmuebles)}" class="vacio">
+        <p>No tienes inmuebles en tu lista de deseos.</p>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(inmuebles)}" class="contenedor">
+        <div th:each="inmueble : ${inmuebles}" class="card">
+
+            <h3 th:text="${inmueble.tipo} + ' en ' + ${inmueble.localizacion}"></h3>
+
+            <p><b>Precio por noche:</b> <span th:text="${inmueble.precioNoche}"></span> €</p>
+            <p><b>Capacidad:</b> <span th:text="${inmueble.capacidad}"></span> personas</p>
+            <p><b>Dirección:</b>
+                <span th:text="${inmueble.calle} + ', ' + ${inmueble.numero}"></span>
+            </p>
+            <p><b>Propietario:</b>
+                <span th:text="${inmueble.propietario.login}"></span>
+            </p>
+
+            <div class="acciones">
+                <a th:href="@{/listaDeseos/eliminar/{id}(id=${inmueble.id})}">
+                    ❌ Eliminar de la lista
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/inicio" class="volver">⬅ Volver al inicio</a>
+
+</body>
+</html>
