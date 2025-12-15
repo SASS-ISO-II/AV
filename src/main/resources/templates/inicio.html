@@ -225,6 +225,54 @@ body {
     opacity: 0.9;
 }
 
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.popup-box {
+    background: #FAF4E8;
+    padding: 28px 36px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    text-align: center;
+    border: 2px solid #E6D9C5;
+    animation: scaleUp 0.25s ease-out;
+}
+
+.popup-box p {
+    font-size: 18px;
+    color: #1A3C40;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.popup-btn {
+    padding: 10px 22px;
+    background: #1A3C40;
+    color: #FAF4E8;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.popup-btn:hover {
+    background: #163236;
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
 
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 @keyframes slideUp { from {transform:translateY(25px); opacity:0;} to {transform:translateY(0); opacity:1;} }
@@ -250,7 +298,33 @@ body {
     <a href="/login">Iniciar sesión</a>
     <a href="/alta">Dar de alta un inmueble</a>
     <a href="/inmueble">Ver inmuebles</a>
+	<th:block th:if="${esInquilino}">
+		    <a href="/usuario">Ver perfil</a>
+	</th:block>
+	<th:block th:if="${esPropietario}">
+		    <a href="/propietario">Ver perfil</a>
+	</th:block>
+	<th:block th:if="${esPropietario}">
+	    <a href="/solicitudes">
+	        Solicitudes (<span th:text="${solicitudesPendientes}">0</span>)
+	    </a>
+	</th:block>
+
 </div>
+
+<div th:if="${param.solicitudEnviada}" class="popup-overlay">
+    <div class="popup-box">
+        <p>La solicitud ha sido enviada. El propietario deberá confirmarla.</p>
+        <button onclick="cerrarPopup()" class="popup-btn">Aceptar</button>
+    </div>
+</div>
+
+<script>
+function cerrarPopup() {
+    document.querySelectorAll('.popup-overlay')
+        .forEach(p => p.style.display = 'none');
+}
+</script>
 
 <div class="hero">
     <div class="hero-icon">🏡</div>

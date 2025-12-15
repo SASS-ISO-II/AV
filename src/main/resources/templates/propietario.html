@@ -92,6 +92,19 @@ h2 {
 <div class="circle c2"></div>
 <div class="circle c3"></div>
 
+<div th:if="${solicitudesPendientes != null and solicitudesPendientes > 0}" class="popup-overlay">
+    <div class="popup-box">
+        <p>Tienes <span th:text="${solicitudesPendientes}"></span> solicitudes pendientes.</p>
+        <button class="popup-btn" onclick="cerrarPopup()">Aceptar</button>
+    </div>
+</div>
+
+<script>
+function cerrarPopup() {
+    document.querySelectorAll('.popup-overlay').forEach(p => p.style.display = 'none');
+}
+</script>
+
 <div class="card">
     <h2>Propietario</h2>
 
@@ -103,6 +116,7 @@ h2 {
     <a class="btn" href="/alta">Dar de alta un inmueble</a>
     <a class="btn" href="/login">Entrar con otro usuario</a>
     <a class="btn" href="/inicio">Volver al inicio</a>
+	<a class="btn" href="/solicitudes">Ver notificaciones</a>
 </div>
 
 </body>

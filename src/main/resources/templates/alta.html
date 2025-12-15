@@ -250,7 +250,11 @@ button:active { transform: scale(0.97); }
     <option value="Apartamento completo">Apartamento completo</option>
     <option value="Casa ">Casa</option>
 </select>
-
+<label>Tipo de reserva:</label>
+        <select th:field="*{tipoReserva}">
+            <option value="AUTOMATICA">Automática</option>
+            <option value="CONFIRMACION">Por confirmación</option>
+        </select>
 <button type="submit">Guardar</button>
 
 <a class="link-volver" href="/inicio">Volver al inicio</a>
