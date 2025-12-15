@@ -14,6 +14,11 @@
 		<relativePath/>
 	</parent>
 	
+	<properties>
+		<sonar.host.url>http://172.20.48.132:9000</sonar.host.url>
+		<sonar.organization>SASS</sonar.organization>
+	</properties>
+	
 	<dependencies>
 	
 		<!-- Spring Boot Starter Thymeleaf: motor de plantillas HTML -->
