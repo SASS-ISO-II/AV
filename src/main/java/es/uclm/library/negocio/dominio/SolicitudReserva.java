@@ -1,9 +1,30 @@
 package es.uclm.library.negocio.dominio;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
 public class SolicitudReserva {
+	
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(LocalDate fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public LocalDate getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(LocalDate fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +42,44 @@ public class SolicitudReserva {
     @JoinColumn(name = "reserva_confirmada_id")
     private Reserva reservaConfirmada;
 
-    private boolean confirmada;
+    @Enumerated(EnumType.STRING)
+    private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
 
+    private boolean confirmada;
+    
+    public EstadoSolicitud getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoSolicitud estado) {
+		this.estado = estado;
+	}
+
+	public void aceptar(Reserva reserva) {
+        this.estado = EstadoSolicitud.ACEPTADA;
+        this.reservaConfirmada = reserva;
+    }
+
+    public void rechazar() {
+        this.estado = EstadoSolicitud.RECHAZADA;
+    }
+    
     public void confirmarReserva(Reserva reserva) {
         this.reservaConfirmada = reserva;
         this.confirmada = true;
     }
-    
-	public SolicitudReserva(Long id, Inmueble inmueble, Reserva reservaConfirmada, boolean confirmada) {
+
+	public SolicitudReserva() {
+		super();
+	}
+	
+	public SolicitudReserva(Long id, Inmueble inmueble, EstadoSolicitud estado, Inquilino inquilino, Reserva reservaConfirmada) {
 		super();
 		this.id = id;
 		this.inmueble = inmueble;
+		this.estado = estado;
+		this.inquilino = inquilino;
 		this.reservaConfirmada = reservaConfirmada;
-		this.confirmada = confirmada;
 	}
 
 	public Long getId() {
@@ -42,6 +88,14 @@ public class SolicitudReserva {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
+
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
 	}
 
 	public Inmueble getInmueble() {

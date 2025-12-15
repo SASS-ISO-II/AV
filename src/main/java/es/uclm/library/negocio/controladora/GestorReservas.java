@@ -2,6 +2,7 @@ package es.uclm.library.negocio.controladora;
 
 import es.uclm.library.negocio.dominio.Inmueble;
 import es.uclm.library.negocio.dominio.Reserva;
+import es.uclm.library.negocio.dominio.TipoReserva;
 import es.uclm.library.negocio.dominio.Usuario;
 import es.uclm.library.negocio.servicio.LNReservas;
 
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import es.uclm.library.negocio.dominio.PoliticaCancelacion;
 
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
@@ -33,8 +33,7 @@ public class GestorReservas {
 
     @GetMapping("/reserva")
     public String mostrarFormularioReserva(@RequestParam(name="inmuebleId", required=false) Long inmuebleId,
-                                           Model model,
-                                           HttpSession session) {
+                                           Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
         if (usuario == null) return "redirect:/login";
@@ -56,13 +55,10 @@ public class GestorReservas {
                 reservasFiltradas.add(r);
             }
         }
-
-        model.addAttribute("reservasExistentes", reservasFiltradas);
         
+        model.addAttribute("reservasExistentes", reservasFiltradas);
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmueble", inmueble);
-        //model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
-
         return "reserva";
     }
 
@@ -77,8 +73,13 @@ public class GestorReservas {
 
         LocalDate inicio = reserva.getFechaInicio();
         LocalDate fin = reserva.getFechaFin();
-
         
+        reserva.setInquilino(lnReservas.obtenerInquilinoPorLogin(usuario.getLogin()));
+        
+        Inmueble inmueble = (Inmueble) session.getAttribute("inmuebleActual");
+
+        reserva.setInmueble(inmueble);
+
         if (politicaHidden != null && !politicaHidden.isEmpty()) {
             try {
                 reserva.setPoliticaCancelacion(PoliticaCancelacion.valueOf(politicaHidden));
@@ -96,7 +97,7 @@ public class GestorReservas {
                 politica = "REEMBOLSABLE";
             } else if (dias <= 8) {
                 politica = "REEMBOLSABLE_50_PER";
-            } else {
+            } else {			
                 politica = "NO_REEMBOLSABLE";
             }
 
@@ -106,12 +107,12 @@ public class GestorReservas {
             
             reserva.setPoliticaCancelacion(PoliticaCancelacion.valueOf(politica));
         }
+        
 
         String resultado = lnReservas.procesarReserva(reserva, usuario, session, model);
 
         if (resultado.equals("error")) {
             model.addAttribute("reserva", reserva);
-            Inmueble inmueble = (Inmueble) session.getAttribute("inmuebleActual");
             model.addAttribute("inmueble", inmueble);
             model.addAttribute("reservasExistentes", lnReservas.obtenerReservasPorInmueble(inmueble));
             return "reserva";

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
+import es.uclm.library.negocio.servicio.LNInmuebles;
+import es.uclm.library.negocio.servicio.LNSolicitud;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import es.uclm.library.persistencia.PropietarioDAO;
@@ -32,6 +35,13 @@ public class GestorUsuarios {
 	
 	@Autowired
 	private UsuarioDAO usuarioDAO;
+	
+	@Autowired
+	private LNInmuebles lninmuebles;
+
+	@Autowired
+	private LNSolicitud lnSolicitud;
+
 	
 	@GetMapping("/registro")
 	public String mostrarRegistro(Model model) {
@@ -102,6 +112,47 @@ public class GestorUsuarios {
 	    }
 	    
 	    return "login";
+	    
+	}
+	
+	@GetMapping("/usuario")
+	public String mostrarInquilino(Model model, HttpSession session) {
+		
+		Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
+		
+	    if (usuario == null) {
+	        return "redirect:/login";
+	    }
+
+	    Inquilino inquilino = lnSolicitud.obtenerInquilinoPorLogin(usuario.getLogin());
+
+        if (inquilino == null) {
+            return "redirect:/login";
+        }
+
+
+        model.addAttribute("registro", inquilino);
+        return "usuario";
+        
+	}
+	
+	@GetMapping("/propietario")
+	public String mostrarPropietario(Model model, HttpSession session) {
+
+		Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
+		
+	    if (usuario == null) {
+	        return "redirect:/login";
+	    }
+
+	    Propietario propietario = lninmuebles.obtenerPropietarioPorLogin(usuario.getLogin());
+
+	    if (propietario == null) {
+	        return "redirect:/inicio";
+	    }
+
+	    model.addAttribute("registro", propietario);
+	    return "propietario";
 	    
 	}
 

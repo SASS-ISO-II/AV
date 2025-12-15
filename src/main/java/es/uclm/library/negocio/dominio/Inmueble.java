@@ -25,6 +25,9 @@ public class Inmueble {
 
     @OneToMany(mappedBy = "inmueble", cascade = CascadeType.ALL)
     private Collection<SolicitudReserva> solicitudesReserva;
+    
+    @Enumerated(EnumType.STRING)
+    private TipoReserva tipoReserva;
 
     private String calle;
     private String numero;
@@ -58,7 +61,13 @@ public class Inmueble {
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public Collection<Reserva> getReservas() { return reservas; }
+    public TipoReserva getTipoReserva() {
+		return tipoReserva;
+	}
+	public void setTipoReserva(TipoReserva tipoReserva) {
+		this.tipoReserva = tipoReserva;
+	}
+	public Collection<Reserva> getReservas() { return reservas; }
     public void setReservas(Collection<Reserva> reservas) { this.reservas = reservas; }
 
     public Collection<ListaDeseos> getListaDeseos() { return listaDeseos; }

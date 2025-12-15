@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes de reserva</title>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            background: #F3E9DA;
+        }
+
+        h1 {
+            color: #1A3C40;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #1A3C40;
+            color: #FAF4E8;
+        }
+
+        .btn-aceptar {
+            padding: 8px 14px;
+            background: #1A3C40;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-aceptar:hover {
+            background: #163236;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Solicitudes pendientes</h1>
+
+<div class="search-card">
+    <form method="get" th:action="@{/solicitudes}">
+        <label>Filtrar por estado:</label>
+        <select name="filtro" onchange="this.form.submit()">
+            <option value="TODAS" th:selected="${filtroActual=='TODAS'}">Todas</option>
+            <option value="PENDIENTE" th:selected="${filtroActual=='PENDIENTE'}">Pendientes</option>
+            <option value="ACEPTADA" th:selected="${filtroActual=='ACEPTADA'}">Aceptadas</option>
+            <option value="RECHAZADA" th:selected="${filtroActual=='RECHAZADA'}">Rechazadas</option>
+        </select>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>Inquilino</th>
+        <th>Inmueble</th>
+		<th>Fecha de inicio</th>
+		<th>Fecha de fin</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+
+    <tr th:each="s : ${solicitudes}">
+        <td th:text="${s.inquilino.login}"></td>
+		<td th:text="${s.inmueble.calle + ' ' + s.inmueble.numero + ', ' + s.inmueble.localizacion}"></td>
+		<td th:text="${s.fechaInicio != null ? s.fechaInicio : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaInicio : '—')}"></td>
+		<td th:text="${s.fechaFin != null ? s.fechaFin : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaFin : '—')}"></td>
+
+		<td th:text="${s.estado}"></td>
+
+		<td>
+		    <div th:if="${s.estado.name() == 'PENDIENTE'}">
+		        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
+		            <input type="hidden" name="id" th:value="${s.id}">
+		            <button type="submit" name="accion" value="ACEPTAR" class="btn-aceptar">Aceptar</button>
+		        </form>
+
+		        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
+		            <input type="hidden" name="id" th:value="${s.id}">
+		            <button type="submit" name="accion" value="RECHAZAR" class="btn-rechazar">Rechazar</button>
+		        </form>
+		    </div>
+
+		    <span th:if="${s.estado.name() != 'PENDIENTE'}">-</span>
+		</td>
+    </tr>
+</table>
+<div class="card">
+    <a class="btn" href="/inicio">Volver al inicio</a>
+</div>
+</body>
+</html>
