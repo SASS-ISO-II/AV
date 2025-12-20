@@ -79,7 +79,7 @@ public class GestorInmuebles {
         model.addAttribute("propietario", propietario);
         
         if (inmuebleGuardado == null) {
-            model.addAttribute("error", "Debes iniciar sesión como propietario para registrar un inmueble.");
+            model.addAttribute("error", "Error al guardar: revise los datos del inmueble.");
             return "alta";
         }
 

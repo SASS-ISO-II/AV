@@ -21,7 +21,7 @@ public class LNBusqueda {
 
         Collection<Inmueble> inmuebles = inmuebleDAO.findAll();
 
-        // FILTRO POR LOCALIZACIÓN
+        
         if (localizacion != null && !localizacion.isBlank()) {
             inmuebles = inmuebles.stream()
                     .filter(i -> i.getLocalizacion() != null &&
@@ -29,21 +29,21 @@ public class LNBusqueda {
                     .collect(Collectors.toList());
         }
 
-        // FILTRO POR PRECIO MÁXIMO
+        
         if (precioMax != null && precioMax > 0) {
             inmuebles = inmuebles.stream()
                     .filter(i -> i.getPrecioNoche() <= precioMax)
                     .collect(Collectors.toList());
         }
 
-        // FILTRO POR CAPACIDAD
+        
         if (capacidad != null && capacidad > 0) {
             inmuebles = inmuebles.stream()
                     .filter(i -> i.getCapacidad() >= capacidad)
                     .collect(Collectors.toList());
         }
 
-        // FILTRO POR TIPO
+       
         if (tipo != null && !tipo.equalsIgnoreCase("todos") && !tipo.isBlank()) {
             inmuebles = inmuebles.stream()
                     .filter(i -> i.getTipo() != null &&
