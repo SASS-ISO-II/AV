@@ -39,3 +39,4 @@ jobs:
         -Dsonar.projectName='SASS' \
         -Dsonar.host.url=http://172.20.48.132:9000 \
         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        -Dsonar.qualitygate.wait=true
