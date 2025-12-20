@@ -35,8 +35,11 @@ public class GestorReservas {
                                            Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
-        if (usuario == null) return "redirect:/login";
-
+        if (usuario == null) {
+            session.setAttribute("inmueblePendiente", inmuebleId);
+            return "redirect:/login";
+        }
+        
         Inmueble inmueble = lnReservas.obtenerInmuebleParaReserva(inmuebleId, session, model);
         if (inmueble == null) {
             model.addAttribute("error", "Debes seleccionar un inmueble antes de reservar.");

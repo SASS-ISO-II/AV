@@ -34,6 +34,7 @@ public class GestorInmuebles {
 
         if (usuario == null) {
             model.addAttribute("estaLogueado", false);
+            session.setAttribute("altaPendiente", true);
             return "alta";
         }
 

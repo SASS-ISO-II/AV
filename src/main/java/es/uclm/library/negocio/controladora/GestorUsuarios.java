@@ -102,6 +102,18 @@ public class GestorUsuarios {
 	    
 	    session.setAttribute("usuarioAutenticado", encontrado);
 	    
+	    Long inmueblePendiente = (Long) session.getAttribute("inmueblePendiente");
+	    if (inmueblePendiente != null) {
+	        session.removeAttribute("inmueblePendiente");
+	        return "redirect:/reserva?inmuebleId=" + inmueblePendiente;
+	    }
+	    
+	    Boolean altaPendiente = (Boolean) session.getAttribute("altaPendiente");
+	    if (altaPendiente != null && altaPendiente) {
+	        session.removeAttribute("altaPendiente");
+	        return "redirect:/alta";
+	    }
+	    
 	    Propietario propietario = propietarioDAO.findByLogin(encontrado.getLogin());
 	    if (propietario != null) {
 	        model.addAttribute("registro", propietario);
