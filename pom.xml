@@ -90,11 +90,33 @@
     			<artifactId>maven-site-plugin</artifactId>
     			<version>3.12.1</version>
 			</plugin>
+			
+			<!--JaCoCo-->
+			<plugin>
+    			<groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>0.8.11</version>
+    			<executions>
+        			<execution>
+            			<id>prepare-agent</id>
+            			<goals>
+                			<goal>prepare-agent</goal>
+            			</goals>
+        			</execution>
+        			<execution>
+            			<id>report</id>
+            			<goals>
+                			<goal>report</goal>
+            			</goals>
+            			<phase>site</phase>
+        			</execution>
+    			</executions>
+			</plugin>
         </plugins>
     </build>
     
    
-    <!-- Surefire Report Plugin -->
+  
     <reporting>
         <plugins>
             <plugin>
@@ -109,6 +131,18 @@
     			<groupId>org.apache.maven.plugins</groupId>
     			<artifactId>maven-project-info-reports-plugin</artifactId>
     			<version>3.4.5</version>
+			</plugin>
+			<plugin>
+    			<groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>0.8.11</version>
+    			<reportSets>
+        			<reportSet>
+            			<reports>
+                			<report>report</report>
+            			</reports>
+        			</reportSet>
+    			</reportSets>
 			</plugin>
         </plugins>
     </reporting>
