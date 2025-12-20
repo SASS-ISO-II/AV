@@ -31,6 +31,7 @@ public class LNInmuebles {
 
         inmueble.setPropietario(propietario);
         return inmuebleDAO.save(inmueble);
+        
     }
     
     public Collection<Inmueble> obtenerTodos() {

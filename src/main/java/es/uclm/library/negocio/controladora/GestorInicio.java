@@ -9,7 +9,6 @@ import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
 import es.uclm.library.negocio.servicio.LNInmuebles;
 import es.uclm.library.negocio.servicio.LNSolicitud;
-import es.uclm.library.persistencia.PropietarioDAO;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;

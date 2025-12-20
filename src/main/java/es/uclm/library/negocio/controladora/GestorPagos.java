@@ -31,7 +31,6 @@ public class GestorPagos {
     @Autowired
     private LNSolicitud solicitudReserva;
 
-	
     private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
 
     @GetMapping("/pago")
@@ -75,7 +74,8 @@ public class GestorPagos {
             return "redirect:/inicio?solicitudEnviada=true";
         }
         lnReservas.guardarReserva(reserva);
-        
+        log.info("Reserva registrada correctamente: {}", reserva);
+
         pagoRegistrado = lnPagos.registrarPago(pago, reserva);
         log.info("Pago registrado correctamente: {}", pagoRegistrado);
         session.removeAttribute("reservaActual");
@@ -86,8 +86,6 @@ public class GestorPagos {
 
         return "pago";
     }
-
-    
 
     @GetMapping("/resultadoPago")
     public String mostrarResultadoPago() {

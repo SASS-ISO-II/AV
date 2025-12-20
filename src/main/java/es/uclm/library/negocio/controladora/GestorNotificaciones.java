@@ -60,11 +60,5 @@ public class GestorNotificaciones {
 
         return "redirect:/solicitudes";
     }
-//
-//    @PostMapping("/solicitudes")
-//    public String aceptarSolicitud(@RequestParam Long id) {
-//    	lnSolicitudReserva.aceptarSolicitud(id);
-//        return "redirect:/solicitudes";
-//    }
     
 }

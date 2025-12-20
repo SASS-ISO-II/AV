@@ -7,6 +7,8 @@ import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.servicio.LNInmuebles;
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ public class GestorInmuebles {
 
     @Autowired
     private LNInmuebles lnInmuebles;
+
+    private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
 
     @GetMapping("/alta")
     public String mostrarFormularioAlta(Model model, HttpSession session) {
@@ -67,6 +71,8 @@ public class GestorInmuebles {
     	}
     	
         Inmueble inmuebleGuardado = lnInmuebles.registrarInmueble(inmueble, propietario.getLogin());
+
+        log.info("Inmueble registrado correctamente: {}", inmuebleGuardado);
         
         model.addAttribute("estaLogueado", true);
         model.addAttribute("propietario", propietario);
@@ -76,17 +82,12 @@ public class GestorInmuebles {
             return "alta";
         }
 
-       
         model.addAttribute("popupExito", true);
 
-        
         model.addAttribute("mensaje", "Inmueble registrado correctamente.");
 
-       
         return "alta";
     }
-
-  
 
     @GetMapping("/detalle/{id}")
     public String detalleInmueble(@PathVariable Long id, Model model, HttpSession session) {

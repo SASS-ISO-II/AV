@@ -2,7 +2,6 @@ package es.uclm.library.negocio.controladora;
 
 import es.uclm.library.negocio.dominio.Inmueble;
 import es.uclm.library.negocio.dominio.Reserva;
-import es.uclm.library.negocio.dominio.TipoReserva;
 import es.uclm.library.negocio.dominio.Usuario;
 import es.uclm.library.negocio.servicio.LNReservas;
 
@@ -59,6 +58,7 @@ public class GestorReservas {
         model.addAttribute("reservasExistentes", reservasFiltradas);
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmueble", inmueble);
+
         return "reserva";
     }
 

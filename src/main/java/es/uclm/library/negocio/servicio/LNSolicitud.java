@@ -1,8 +1,11 @@
 package es.uclm.library.negocio.servicio;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.uclm.library.negocio.controladora.GestorPagos;
 import es.uclm.library.negocio.dominio.EstadoSolicitud;
 import es.uclm.library.negocio.dominio.Inmueble;
 import es.uclm.library.negocio.dominio.Inquilino;
@@ -11,7 +14,6 @@ import es.uclm.library.negocio.dominio.Reserva;
 import es.uclm.library.negocio.dominio.SolicitudReserva;
 import es.uclm.library.persistencia.InmuebleDAO;
 import es.uclm.library.persistencia.InquilinoDAO;
-import es.uclm.library.persistencia.PropietarioDAO;
 import es.uclm.library.persistencia.ReservaDAO;
 import es.uclm.library.persistencia.SolicitudReservaDAO;
 
@@ -29,6 +31,8 @@ public class LNSolicitud {
 
     @Autowired
     private ReservaDAO reservaDAO;
+
+    private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
 
     public Inquilino obtenerInquilinoPorLogin(String login) {
         return inquilinoDAO.findByLogin(login);
@@ -49,7 +53,8 @@ public class LNSolicitud {
 
 
         solicitudDAO.save(s);
-
+        log.info("Solicitud registrada correctamente: {}", s);
+        
         return s;
     }
     
@@ -65,34 +70,15 @@ public class LNSolicitud {
         reserva.setFechaFin(solicitud.getFechaFin());
 
         reservaDAO.save(reserva);
+        log.info("Reserva registrada correctamente: {}", reserva);
 
         solicitud.setReservaConfirmada(reserva);
         solicitud.setEstado(EstadoSolicitud.ACEPTADA);
-
+        
+        log.info("Solicitud registrada correctamente: {}", solicitud);
+        
         solicitudDAO.save(solicitud);
     }
-
-//    public void aceptarSolicitud(Long idSolicitud) {
-//
-//        SolicitudReserva solicitud = solicitudDAO.findById(idSolicitud).orElseThrow(() -> new RuntimeException("Solicitud no encontrada."));
-//
-//        Reserva reserva = solicitud.getReservaConfirmada();
-//        
-//        if (solicitud.getEstado() != EstadoSolicitud.PENDIENTE) {
-//            throw new RuntimeException("Esta solicitud ya fue procesada.");
-//        }
-//        
-//        if (reserva == null) {
-//            throw new RuntimeException("Esta solicitud no tiene reserva asociada.");
-//        }
-//
-//        reservaDAO.save(reserva);
-//
-//        solicitud.aceptar(reserva);
-//        solicitudDAO.save(solicitud);
-//        reservaDAO.save(reserva);
-//        System.out.println("Solicitud aceptada: " + idSolicitud);
-//    }
 
     public void rechazarSolicitud(Long idSolicitud) {
 
@@ -105,7 +91,7 @@ public class LNSolicitud {
         solicitud.rechazar();
 
         solicitudDAO.save(solicitud);
-
+        log.info("Solicitud registrada correctamente: {}", solicitud);
         System.out.println("Solicitud rechazada: " + idSolicitud);
     }
     
