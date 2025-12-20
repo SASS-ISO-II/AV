@@ -50,7 +50,8 @@ public class GestorUsuarios {
 	}
 	
 	@PostMapping("/registro")
-	public String loginUsuario(@RequestParam("tipoUsuario") String tipoUsuario, @ModelAttribute("registro") Usuario usuario, Model model) {
+	public String loginUsuario(@RequestParam("tipoUsuario") String tipoUsuario, @ModelAttribute("registro") Usuario usuario, Model model,
+	        HttpSession session) {
 		
 		if (!usuario.getLogin().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
 	        model.addAttribute("error", "El login debe ser un correo electrónico válido.");
@@ -64,7 +65,8 @@ public class GestorUsuarios {
 	        
 	        Propietario savedPropietario = propietarioDAO.save(propietario);
 	        log.info("Saved propietario: " + savedPropietario);
-	        
+	        session.setAttribute("usuarioAutenticado", savedPropietario);
+
 	        return "propietario";
 	        
 	    } else { 
@@ -74,7 +76,8 @@ public class GestorUsuarios {
 
 	        Inquilino savedInquilino = inquilinoDAO.save(inquilino);
 	        log.info("Saved inquilino: " + savedInquilino);
-	        
+	        session.setAttribute("usuarioAutenticado", savedInquilino);
+
 	        return "usuario";
 	        
 	    }
