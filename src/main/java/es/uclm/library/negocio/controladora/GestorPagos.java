@@ -42,8 +42,10 @@ public class GestorPagos {
 
         model.addAttribute("pago", new Pago());
         model.addAttribute("metodos", MetodoPago.values());
-        
+
+        int noches = (int) reserva.getNoches();
         double total = reserva.getNoches() * reserva.getInmueble().getPrecioNoche();
+        model.addAttribute("noches", noches);
         model.addAttribute("totalAPagar", total);
 
         return "pago";

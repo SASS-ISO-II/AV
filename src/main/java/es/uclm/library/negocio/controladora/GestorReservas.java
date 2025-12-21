@@ -66,10 +66,8 @@ public class GestorReservas {
     }
 
     @PostMapping("/reserva")
-    public String procesarReserva(@ModelAttribute("reserva") Reserva reserva,
-                                  HttpSession session,
-                                  Model model,
-                                  @RequestParam(value = "politicaCancelacion", required = false) String politicaHidden) {
+    public String procesarReserva(@ModelAttribute("reserva") Reserva reserva, HttpSession session,
+                                  Model model, @RequestParam(value = "politicaCancelacion", required = false) String politicaHidden) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
         if (usuario == null) return "redirect:/login";
