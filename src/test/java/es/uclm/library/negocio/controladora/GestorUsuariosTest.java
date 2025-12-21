@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 @ExtendWith(MockitoExtension.class)
 public class GestorUsuariosTest {
 
-    // Mocks necesarios para el método de registro
+    
     @Mock
     private PropietarioDAO propietarioDAO;
 
