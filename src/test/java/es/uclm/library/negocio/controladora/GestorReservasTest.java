@@ -74,7 +74,7 @@ public class GestorReservasTest {
         
         Reserva reserva = new Reserva();
         reserva.setFechaInicio(LocalDate.of(2024, 1, 1));
-        reserva.setFechaFin(LocalDate.of(2024, 1, 6)); // 5 días
+        reserva.setFechaFin(LocalDate.of(2024, 1, 6)); 
 
         gestorReservas.procesarReserva(reserva, session, model, null);
 
@@ -89,7 +89,7 @@ public class GestorReservasTest {
        
         Reserva reserva = new Reserva();
         reserva.setFechaInicio(LocalDate.of(2024, 1, 1));
-        reserva.setFechaFin(LocalDate.of(2024, 1, 11)); // 10 días
+        reserva.setFechaFin(LocalDate.of(2024, 1, 11)); 
 
         gestorReservas.procesarReserva(reserva, session, model, null);
 
@@ -112,8 +112,8 @@ public class GestorReservasTest {
 
         String vista = gestorReservas.procesarReserva(reserva, session, model, null);
 
-        assertEquals("reserva", vista); // Se queda en la vista
-        verify(lnReservas).obtenerReservasPorInmueble(inmuebleMock); // Recarga la lista
+        assertEquals("reserva", vista); 
+        verify(lnReservas).obtenerReservasPorInmueble(inmuebleMock); 
     }
 
    
