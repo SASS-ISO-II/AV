@@ -3,7 +3,6 @@ package es.uclm.library.negocio.controladora;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,7 +35,6 @@ class GestorInmueblesTest {
     @InjectMocks
     private GestorInmuebles gestorInmuebles;
 
-   
     private Usuario usuarioPepe; 
     private Usuario usuarioJuan; 
     private Propietario propietarioJuan;
@@ -52,10 +50,6 @@ class GestorInmueblesTest {
         propietarioJuan = new Propietario();
         propietarioJuan.setLogin("juan");
     }
-
-    
-    
-    
 
     @Test 
     void testMostrarAlta_SinSesion() {
@@ -77,7 +71,7 @@ class GestorInmueblesTest {
 
         assertEquals("alta", view);
         verify(model).addAttribute("estaLogueado", false);
-        verify(model).addAttribute(eq("error"), eq("Solo los propietarios pueden dar de alta inmuebles."));
+        verify(model).addAttribute("error", "Solo los propietarios pueden dar de alta inmuebles.");
     }
 
     @Test 
@@ -91,8 +85,6 @@ class GestorInmueblesTest {
         verify(model).addAttribute("estaLogueado", true);
     }
 
-    
-
     @Test 
     void testGuardar_SinSesion() {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(null);
@@ -100,7 +92,7 @@ class GestorInmueblesTest {
         String view = gestorInmuebles.guardarInmueble(new Inmueble(), model, session);
 
         assertEquals("alta", view);
-        verify(model).addAttribute(eq("error"), eq("Debes iniciar sesión como propietario para registrar un inmueble."));
+        verify(model).addAttribute("error", "Debes iniciar sesión como propietario para registrar un inmueble.");
     }
 
     @Test 
@@ -111,7 +103,7 @@ class GestorInmueblesTest {
         String view = gestorInmuebles.guardarInmueble(new Inmueble(), model, session);
 
         assertEquals("alta", view);
-        verify(model).addAttribute(eq("error"), eq("Solo los propietarios pueden registrar inmuebles."));
+        verify(model).addAttribute("error", "Solo los propietarios pueden registrar inmuebles.");
     }
 
     @Test 
@@ -122,21 +114,16 @@ class GestorInmueblesTest {
         Inmueble inmInvalido = new Inmueble();
         inmInvalido.setPrecioNoche(-50.0); 
 
-     
         when(lnInmuebles.registrarInmueble(any(Inmueble.class), anyString())).thenReturn(null);
 
-        
         String view = gestorInmuebles.guardarInmueble(inmInvalido, model, session);
 
-      
         assertEquals("alta", view);
         
-       
         verify(model).addAttribute("estaLogueado", true);
         verify(model).addAttribute("propietario", propietarioJuan);
 
-      
-        verify(model).addAttribute(eq("error"), eq("Error al guardar: revise los datos del inmueble."));
+        verify(model).addAttribute("error", "Error al guardar: revise los datos del inmueble.");
     }
 
     @Test 
@@ -148,7 +135,6 @@ class GestorInmueblesTest {
         inmV.setPrecioNoche(100.0);
         inmV.setLocalizacion("Madrid");
 
-        
         when(lnInmuebles.registrarInmueble(any(Inmueble.class), anyString())).thenReturn(inmV);
 
         String view = gestorInmuebles.guardarInmueble(inmV, model, session);
@@ -156,7 +142,4 @@ class GestorInmueblesTest {
         assertEquals("alta", view);
         verify(model).addAttribute("popupExito", true);
     }
-
-
-   
 }
