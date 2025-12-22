@@ -21,12 +21,12 @@ class InmuebleDAOTest {
     @Autowired
     private TestEntityManager entityManager;
 
-  
     @Test
     void testFindByCapacidadGreaterThanEqual_MiniMax() {
 
-        // Arrange
+        
         Propietario propietario = new Propietario();
+        propietario.setLogin("propietario1"); 
         entityManager.persist(propietario);
 
         Inmueble minimo = new Inmueble();
@@ -46,10 +46,10 @@ class InmuebleDAOTest {
 
         entityManager.flush();
 
-        // Act
+        
         Collection<Inmueble> resultado = inmuebleDAO.findByCapacidadGreaterThanEqual(3);
 
-        // Assert
+        
         assertEquals(2, resultado.size());
     }
 
@@ -57,7 +57,7 @@ class InmuebleDAOTest {
     @Test
     void testFindByPrecioNocheLessThanEqual_MiniMax() {
 
-        // Arrange
+        
         Inmueble barato = new Inmueble();
         barato.setPrecioNoche(50.0);
         entityManager.persist(barato);
@@ -72,10 +72,10 @@ class InmuebleDAOTest {
 
         entityManager.flush();
 
-        // Act
+        
         Collection<Inmueble> resultado = inmuebleDAO.findByPrecioNocheLessThanEqual(100.0);
 
-        // Assert
+      
         assertEquals(2, resultado.size());
     }
 
@@ -83,7 +83,7 @@ class InmuebleDAOTest {
     @Test
     void testFindByTipo() {
 
-        // Arrange
+       
         Inmueble piso = new Inmueble();
         piso.setTipo("Piso");
         entityManager.persist(piso);
@@ -94,10 +94,10 @@ class InmuebleDAOTest {
 
         entityManager.flush();
 
-        // Act
+        
         Collection<Inmueble> resultado = inmuebleDAO.findByTipo("Piso");
 
-        // Assert
+        
         assertEquals(1, resultado.size());
     }
 
@@ -105,7 +105,7 @@ class InmuebleDAOTest {
     @Test
     void testFindByLocalizacionContainingIgnoreCase() {
 
-        // Arrange
+        
         Inmueble i1 = new Inmueble();
         i1.setLocalizacion("Madrid Centro");
         entityManager.persist(i1);
@@ -116,11 +116,11 @@ class InmuebleDAOTest {
 
         entityManager.flush();
 
-        // Act
+       
         Collection<Inmueble> resultado =
                 inmuebleDAO.findByLocalizacionContainingIgnoreCase("madrid");
 
-        // Assert
+      
         assertEquals(1, resultado.size());
     }
 
@@ -129,9 +129,12 @@ class InmuebleDAOTest {
     void testFindByPropietario() {
 
         Propietario p1 = new Propietario();
+        p1.setLogin("pepe"); 
         entityManager.persist(p1);
 
         Propietario p2 = new Propietario();
+        p2.setLogin("juan"); 
+
         entityManager.persist(p2);
 
         Inmueble i1 = new Inmueble();

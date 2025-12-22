@@ -27,6 +27,8 @@ class ReservaDAOTest {
     @Test
     void testFindReservasSolapadas() {
         Propietario propietario = new Propietario();
+        propietario.setLogin("propietario1");
+        
         entityManager.persist(propietario);
 
         Inmueble inmueble = new Inmueble();
@@ -59,6 +61,8 @@ class ReservaDAOTest {
     @Test
     void testFindReservasSolapadas_DiferenteInmueble() {
         Propietario propietario = new Propietario();
+        propietario.setLogin("propietario2"); 
+        
         entityManager.persist(propietario);
 
         Inmueble inmuebleA = new Inmueble();
@@ -89,6 +93,8 @@ class ReservaDAOTest {
     @Test
     void testFindReservasPorInmueble() {
         Propietario propietario = new Propietario();
+        propietario.setLogin("propietario3"); 
+       
         entityManager.persist(propietario);
 
         Inmueble inmueble = new Inmueble();
