@@ -1,0 +1,42 @@
+name: CI - SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Build project
+      run: mvn clean verify
+
+    - name: SonarQube Scan
+      run: mvn sonar:sonar \
+        -Dsonar.projectKey=SASS \
+        -Dsonar.projectName='SASS' \
+        -Dsonar.host.url=http://172.20.48.132:9000 \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        -Dsonar.qualitygate.wait=true
