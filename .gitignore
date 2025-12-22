@@ -2,9 +2,6 @@
 # COMPILACIÓN Y BINARIOS GENERADOS.
 ###############################################
 
-# Carpeta generada por Maven con los .class y el .jar del proyecto.
-/target/
-
 # Archivos de bytecode Java
 *.class
 

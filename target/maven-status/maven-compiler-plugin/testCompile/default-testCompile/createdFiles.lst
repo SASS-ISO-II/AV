@@ -1,0 +1,15 @@
+es\uclm\library\negocio\controladora\GestorInmueblesTest.class
+es\uclm\library\persistencia\PropietarioDAOTest.class
+es\uclm\library\persistencia\UsuarioDAOTest.class
+es\uclm\library\negocio\servicio\LNBusquedaTest.class
+es\uclm\library\persistencia\SolicitudReservaDAOTest.class
+es\uclm\library\negocio\controladora\GestorReservasTest.class
+es\uclm\library\persistencia\InquilinoDAOTest.class
+es\uclm\library\persistencia\InmuebleDAOTest.class
+es\uclm\library\negocio\controladora\GestorNotificacionesTest.class
+es\uclm\library\negocio\controladora\GestorPagosTest.class
+es\uclm\library\persistencia\ReservaDAOTest.class
+es\uclm\library\LibraryApplicationTests.class
+es\uclm\library\negocio\controladora\GestorInicioTest.class
+es\uclm\library\negocio\controladora\GestorListaDeseosTest.class
+es\uclm\library\negocio\controladora\GestorUsuariosTest.class

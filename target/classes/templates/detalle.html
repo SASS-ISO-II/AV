@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalle del Inmueble</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #F3E9DA 0%, #F3E9DA 50%, #6AA89B 50%);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 40px 0 10px;
+            color: #1A3C40;
+            font-size: 38px; 
+            font-weight: 700;
+        }
+
+        
+        .gallery-container {
+            width: 80%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .main-photo {
+            width: 100%;
+            height: 440px;
+            object-fit: cover;
+            border-radius: 26px; /* más redondo */
+            box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+        }
+
+        .thumb-container {
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .thumb {
+            width: 130px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            opacity: 0.75;
+            transition: 0.2s;
+        }
+        .thumb:hover { opacity: 1; transform: scale(1.05); }
+
+        
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1A3C40;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 22px; /* más grande */
+            opacity: 0.85;
+            transition: 0.2s;
+        }
+        .nav-btn:hover { opacity: 1; }
+
+        .prev { left: -25px; }
+        .next { right: -25px; }
+
+        
+        .card {
+            width: 680px; 
+            background: #FAF4E8;
+            margin: 45px auto;
+            padding: 45px; 
+            border-radius: 36px; 
+            box-shadow: 0 25px 55px rgba(0,0,0,0.25);
+            color: #1A3C40;
+            border: 2px solid #E6D9C5;
+            font-size: 20px; 
+            line-height: 1.55;
+        }
+
+        .card p b {
+            font-size: 21px;
+        }
+
+        .features-box {
+            margin-top: 22px;
+            padding: 22px;
+            background: #EFE7DA;
+            border-radius: 20px; 
+            font-size: 19px;
+        }
+
+        a {
+            color: #1A3C40;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 20px;
+        }
+        a:hover { text-decoration: underline; }
+
+        
+        .reviews-container {
+            width: 680px;
+            margin: 40px auto 80px;
+            background: #FAF4E8;
+            border-radius: 30px;
+            padding: 40px;
+            border: 2px solid #E6D9C5;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.22);
+            font-size: 19px; /* texto más grande */
+        }
+
+        .reviews-container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #1A3C40;
+            font-weight: 700;
+        }
+
+        .review {
+            margin-bottom: 25px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #DCC9B9;
+        }
+
+        .review:last-child {
+            border-bottom: none;
+        }
+
+        .review p b {
+            font-size: 21px;
+        }
+
+        .stars {
+            color: #FFB400;
+            font-size: 22px; 
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Detalle del Inmueble</h1>
+
+
+<div class="gallery-container"
+     th:with="
+        tipo=${inmueble.tipo},
+        fotos=${tipo == 'Casa' ? {'/img/casa/casa1.avif','/img/casa/casa2.avif','/img/casa/casa3.avif'} :
+               (tipo == 'Apartamento completo' ? {'/img/apartamento/apartamento1.avif','/img/apartamento/apartamento2.avif','/img/apartamento/apartamento3.avif'} :
+                                                 {'/img/habitacion/habitacion1.avif','/img/habitacion/habitacion2.avif','/img/habitacion/habitacion3.avif'})}
+     ">
+
+    <button class="nav-btn prev" onclick="cambiarFoto(-1)">‹</button>
+
+    <img id="mainPhoto" th:src="@{${fotos[0]}}" class="main-photo">
+
+    <button class="nav-btn next" onclick="cambiarFoto(1)">›</button>
+
+    <div class="thumb-container">
+        <img th:each="f : ${fotos}"
+             th:src="@{${f}}"
+             class="thumb"
+             onclick="cambiarDirecto(this)">
+    </div>
+</div>
+
+
+
+<div class="card">
+
+    <p><b>Calle:</b> <span th:text="${inmueble.calle}"></span></p>
+    <p><b>Número:</b> <span th:text="${inmueble.numero}"></span></p>
+    <p><b>Localización:</b> <span th:text="${inmueble.localizacion}"></span></p>
+    <p><b>Precio por noche:</b> <span th:text="${inmueble.precioNoche}"></span> €</p>
+    <p><b>Capacidad:</b> <span th:text="${inmueble.capacidad}"></span> personas</p>
+    <p><b>Tipo:</b> <span th:text="${inmueble.tipo}"></span></p>
+
+    <div class="features-box">
+        <p th:if="${inmueble.tipo == 'Casa'}">🏡 Casa completa</p>
+        <p th:if="${inmueble.tipo == 'Apartamento completo'}">🏙 Apartamento entero</p>
+        <p th:if="${inmueble.tipo == 'Habitación individual'}">🛏 Habitación privada</p>
+
+        <p>🍳 Cocina equipada</p>
+        <p>🚪 Entrada independiente</p>
+        <p>🛋 Zona de estar</p>
+    </div>
+
+    <br>
+    
+    <p><a th:href="@{/reserva(inmuebleId=${inmueble.id})}">Reservar este inmueble</a></p>
+    <p th:if="${estaLogueado and esInquilino}"><a th:href="@{/listaDeseos/agregar/{id}(id=${inmueble.id})}"
+       style="color:#C2185B; font-weight:700;">
+        ❤️ Añadir a mi Lista de Deseos
+    </a></p>
+	<p th:if="${!estaLogueado}"><a href="/login">Inicia sesión para añadir a favoritos</a></p>
+	<p th:if="${estaLogueado and !esInquilino}">Solo los inquilinos pueden añadir a la Lista de Deseos</p>
+    <p><a href="/inmueble">Volver a ver todos los inmuebles</a></p>
+	</div>
+
+
+
+<div class="reviews-container">
+
+    <h2>Opiniones</h2>
+
+    <div class="review">
+        <p><b>Ana (España)</b></p>
+        <p class="stars">★★★★★</p>
+        <p>El alojamiento estaba impecable y la ubicación era perfecta. Volvería sin duda.</p>
+    </div>
+
+    <div class="review">
+        <p><b>Marco (Italia)</b></p>
+        <p class="stars">★★★★☆</p>
+        <p>Muy bonito y confortable. Solo faltaba un poco más de menaje en la cocina.</p>
+    </div>
+
+    <div class="review">
+        <p><b>Lucía (Argentina)</b></p>
+        <p class="stars">★★★★★</p>
+        <p>Las fotos no le hacen justicia. El sitio es aún más bonito en persona.</p>
+    </div>
+
+</div>
+
+
+<script>
+    let index = 0;
+
+    function cambiarFoto(step) {
+        const thumbs = document.querySelectorAll(".thumb");
+        index = (index + step + thumbs.length) % thumbs.length;
+        document.getElementById("mainPhoto").src = thumbs[index].src;
+    }
+
+    function cambiarDirecto(img) {
+        document.getElementById("mainPhoto").src = img.src;
+    }
+</script>
+
+</body>
+</html>

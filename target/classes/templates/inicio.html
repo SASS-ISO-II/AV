@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #F3E9DA 0%, #F3E9DA 45%, #6AA89B 45%, #6AA89B 100%);
+    padding-top: 80px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.22;
+    filter: blur(3px);
+    z-index: -1;
+}
+
+.c1 { width: 260px; height: 260px; top: 20px; left: 20px; background: #D9C8B4; animation: float1 18s infinite alternate; }
+.c2 { width: 340px; height: 340px; top: 180px; right: -60px; background: #1A3C40; opacity: 0.15; animation: float2 22s infinite alternate; }
+.c3 { width: 160px; height: 160px; bottom: 50px; left: 25%; background: #B8D7CE; animation: float3 26s infinite alternate; }
+
+@keyframes float1 { from { transform: translateY(0); } to { transform: translateY(40px); } }
+@keyframes float2 { from { transform: translateY(0); } to { transform: translateY(-35px); } }
+@keyframes float3 { from { transform: translateY(0); } to { transform: translateY(25px); } }
+
+
+.navbar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 14px 30px;
+    background: rgba(250,244,232,0.60);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #E6D9C5;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.navbar a {
+    color: #1A3C40;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.navbar a:hover {
+    background: #E6D9C5;
+}
+
+
+.hero {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    animation: fadeIn 0.7s ease-out, slideUp 0.7s ease-out;
+}
+
+.hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1A3C40;
+}
+
+.hero p {
+    margin-top: 12px;
+    font-size: 18px;
+    color: #1A3C40;
+    opacity: 0.9;
+}
+
+.hero-btn {
+    margin-top: 28px;
+    padding: 16px 32px;
+    background: #1A3C40;
+    color: #FAF4E8;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.hero-btn:hover {
+    background: #163236;
+}
+
+.hero-icon {
+    margin: 0 auto 22px auto;
+    width: 110px;
+    height: 110px;
+    border-radius: 26px;
+    background: #FAF4E8;
+    border: 2px solid #E6D9C5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 46px;
+    color: #1A3C40;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
+
+
+.lower-section {
+    margin-top: 40px;
+    padding: 30px 20px 60px 20px;
+}
+
+
+.cities-section {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+    color: #FAF4E8;
+}
+
+.cities-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.cities-section p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 18px;
+}
+
+.city-carousel {
+    overflow: hidden;
+    width: 100%;
+}
+
+.cities-strip {
+    display: flex;
+    gap: 14px;
+    animation: scrollCities 28s linear infinite;
+}
+
+.cities-strip:hover {
+    animation-play-state: paused;
+}
+
+.city-pill {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #FAF4E8;
+    color: #1A3C40;
+    font-weight: 500;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    white-space: nowrap;
+}
+
+@keyframes scrollCities {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+
+.features-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    color: #FAF4E8;
+}
+
+.features-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.features-section p.section-subtitle {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 24px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.feature-card {
+    background: #FAF4E8;
+    border-radius: 26px;
+    padding: 22px 20px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    border: 2px solid #E6D9C5;
+    color: #1A3C40;
+}
+
+.feature-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.feature-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.popup-box {
+    background: #FAF4E8;
+    padding: 28px 36px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    text-align: center;
+    border: 2px solid #E6D9C5;
+    animation: scaleUp 0.25s ease-out;
+}
+
+.popup-box p {
+    font-size: 18px;
+    color: #1A3C40;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.popup-btn {
+    padding: 10px 22px;
+    background: #1A3C40;
+    color: #FAF4E8;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.popup-btn:hover {
+    background: #163236;
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes slideUp { from {transform:translateY(25px); opacity:0;} to {transform:translateY(0); opacity:1;} }
+
+
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="circle c1"></div>
+<div class="circle c2"></div>
+<div class="circle c3"></div>
+
+<div class="navbar">
+    <a href="/registro">Registrarse</a>
+    <a href="/login">Iniciar sesión</a>
+    <a href="/alta">Dar de alta un inmueble</a>
+    <a href="/inmueble">Ver inmuebles</a>
+	<th:block th:if="${esInquilino}">
+		    <a href="/usuario">Ver perfil</a>
+			<a href="/reservaUsuario">Ver reservas</a>
+	</th:block>
+	<th:block th:if="${esPropietario}">
+		    <a href="/propietario">Ver perfil</a>
+	</th:block>
+	<th:block th:if="${esPropietario}">
+	    <a href="/solicitudes">
+	        Solicitudes (<span th:text="${solicitudesPendientes}">0</span>)
+	    </a>
+	</th:block>
+
+</div>
+
+<div th:if="${param.solicitudEnviada}" class="popup-overlay">
+    <div class="popup-box">
+        <p>La solicitud ha sido enviada. El propietario deberá confirmarla.</p>
+        <button onclick="cerrarPopup()" class="popup-btn">Aceptar</button>
+    </div>
+</div>
+
+<script>
+function cerrarPopup() {
+    document.querySelectorAll('.popup-overlay')
+        .forEach(p => p.style.display = 'none');
+}
+</script>
+
+<div class="hero">
+    <div class="hero-icon">🏡</div>
+
+    <h1>Encuentra tu próximo hogar</h1>
+    <p>Explora cientos de inmuebles disponibles o publica el tuyo fácilmente.</p>
+
+    <a href="/inmueble">
+        <button class="hero-btn">Buscar inmuebles</button>
+    </a>
+</div>
+
+<div class="lower-section">
+
+    <div class="cities-section">
+        <h2>Destinos destacados</h2>
+        <p>Explora los inmuebles en nuestras ciudades disponibles.</p>
+
+        <div class="city-carousel">
+            <div class="cities-strip">
+                <div class="city-pill">Talavera de la Reina</div>
+                <div class="city-pill">Madrid</div>
+                <div class="city-pill">Segovia</div>
+                <div class="city-pill">Navalmoral de la Mata</div>
+                <div class="city-pill">Socuéllamos</div>
+                <div class="city-pill">Valencia</div>
+                <div class="city-pill">Sevilla</div>
+
+                <div class="city-pill">Talavera de la Reina</div>
+                <div class="city-pill">Madrid</div>
+                <div class="city-pill">Segovia</div>
+                <div class="city-pill">Navalmoral de la Mata</div>
+                <div class="city-pill">Socuéllamos</div>
+                <div class="city-pill">Valencia</div>
+                <div class="city-pill">Sevilla</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <h2>¿Por qué usar nuestra plataforma?</h2>
+        <p class="section-subtitle">Disfruta de alojamientos únicos, en cualquier lugar y con total comodidad.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Vive donde quieras</h3>
+                <p>Elige entre diferentes ciudades y tipos de inmuebles para adaptarte a cada viaje o estancia.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏡</div>
+                <h3>Alojamientos únicos</h3>
+                <p>Encuentra casas, apartamentos y habitaciones con personalidad propia, gestionados por propietarios reales.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Experiencias memorables</h3>
+                <p>Disfruta de estancias cómodas y bien ubicadas para que solo tengas que preocuparte de vivir la experiencia.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

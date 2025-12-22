@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Listado de Inmuebles</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #F3E9DA 0%, #F3E9DA 50%, #6AA89B 50%);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 35px 0 20px;
+            color: #1A3C40;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        
+        .top-image-box {
+            width: 80%;
+            margin: 0 auto 40px;
+        }
+
+        .top-image {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+            border-radius: 26px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        
+        .search-card {
+            width: 520px;
+            margin: 0 auto;
+            background: #FAF4E8;
+            padding: 30px;
+            border-radius: 26px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+            border: 2px solid #E6D9C5;
+        }
+
+        .search-card label {
+            font-weight: 600;
+            color: #1A3C40;
+        }
+
+        .search-card input,
+        .search-card select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #C9B9A8;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1A3C40;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #244f55;
+        }
+
+        .clear-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #E6D9C5;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+       
+        .list-card {
+            width: 680px;
+            margin: 50px auto;
+            background: #FAF4E8;
+            padding: 30px;
+            border-radius: 26px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+            border: 2px solid #E6D9C5;
+        }
+
+        .item {
+            background: #EFE7DA;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 14px;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+
+        .item:hover {
+            transform: scale(1.02);
+            background: #e8dfd1;
+        }
+
+        .item a {
+            color: #1A3C40;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* === Botones finales === */
+        .footer-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-btn {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 22px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background: #1A3C40;
+            border-radius: 14px;
+            text-decoration: none;
+            transition: 0.25s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+        }
+
+        .footer-btn:hover {
+            background: #F3E9DA;
+            color: #1A3C40;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Listado de Inmuebles</h1>
+
+<!-- Imagen superior dinámica -->
+<div class="top-image-box"
+     th:with="
+        previewImg=${tipo == 'Casa' ? '/img/casa/casa1.avif' :
+                      (tipo == 'Apartamento completo' ? '/img/apartamento/apartamento1.avif' :
+                                                        '/img/habitacion/habitacion1.avif')}
+     ">
+    <img class="top-image" th:src="@{${previewImg}}" alt="imagen">
+</div>
+
+
+
+<div class="search-card">
+    <form th:action="@{/inmueble/buscar}" method="get">
+
+        <label>Localización:</label>
+        <input type="text" name="localizacion" th:value="${localizacion}">
+
+        <label>Precio máximo:</label>
+        <input type="number" name="precioMax" min="0" step="0.1" th:value="${precioMax}">
+
+        <label>Capacidad mínima:</label>
+        <input type="number" name="capacidad" min="1" th:value="${capacidad}">
+
+        <label>Tipo:</label>
+        <select name="tipo">
+            <option value="todos" th:selected="${tipo == 'todos'}">Todos</option>
+            <option value="Habitación individual" th:selected="${tipo == 'Habitación individual'}">Habitación individual</option>
+            <option value="Apartamento completo" th:selected="${tipo == 'Apartamento completo'}">Apartamento completo</option>
+            <option value="Casa" th:selected="${tipo == 'Casa'}">Casa</option>
+        </select>
+
+        <button class="search-btn" type="submit">Buscar</button>
+
+        <a href="/inmueble"><button type="button" class="clear-btn">Limpiar filtros</button></a>
+
+    </form>
+</div>
+
+
+
+<div class="list-card">
+    <div th:each="inmueble : ${inmuebles}" class="item">
+        <a th:href="@{'/detalle/' + ${inmueble.id}}"
+           th:text="${inmueble.localizacion + ' - ' + inmueble.tipo}"></a>
+    </div>
+
+    <div class="footer-buttons">
+        <a href="/inicio" class="footer-btn">Volver al inicio</a>
+        <a href="/alta" class="footer-btn">Dar de alta un inmueble</a>
+    </div>
+</div>
+
+</body>
+</html>
