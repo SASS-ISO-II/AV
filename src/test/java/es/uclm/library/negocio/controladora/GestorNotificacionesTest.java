@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times; 
 
 import java.util.ArrayList;
 
@@ -47,20 +48,17 @@ public class GestorNotificacionesTest {
     @InjectMocks
     private GestorNotificaciones gestorNotificaciones;
 
-   
     private Usuario usuarioPepe;
     private Propietario propietarioPepe;
 
     @BeforeEach
     void setUp() {
-       
         usuarioPepe = new Usuario();
         usuarioPepe.setLogin("Pepe");
 
         propietarioPepe = new Propietario();
     }
 
-   
     @Test
     void testCP1_Listar_SessionNull() {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(null);
@@ -72,12 +70,10 @@ public class GestorNotificacionesTest {
         verify(solicitudReservaDAO, never()).findByPropietario(any());
     }
 
-   
     @Test
     void testCP2_Listar_Pepe_Todas() {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(usuarioPepe);
         when(propietarioDAO.findByLogin("Pepe")).thenReturn(propietarioPepe);
-        
         
         when(solicitudReservaDAO.findByPropietario(propietarioPepe)).thenReturn(new ArrayList<>());
 
@@ -85,10 +81,9 @@ public class GestorNotificacionesTest {
 
         assertEquals("solicitudes", vista);
         
-        verify(solicitudReservaDAO).findByPropietario(propietarioPepe);
-    }
-
-    
+       
+        verify(solicitudReservaDAO, times(2)).findByPropietario(any(Propietario.class));
+    } 
     @Test
     void testCP3_Listar_Pepe_Pendiente() {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(usuarioPepe);
@@ -102,19 +97,16 @@ public class GestorNotificacionesTest {
         verify(solicitudReservaDAO).findByPropietarioAndEstado(propietarioPepe, EstadoSolicitud.PENDIENTE);
     }
 
-   
     @Test
     void testCP4_Listar_FiltroInventado() {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(usuarioPepe);
         when(propietarioDAO.findByLogin("Pepe")).thenReturn(propietarioPepe);
 
-       
         assertThrows(IllegalArgumentException.class, () -> {
             gestorNotificaciones.listarSolicitudes(session, model, "INVENTADO");
         });
     }
 
-   
     @Test
     void testCP5_Procesar_Aceptar() {
         String vista = gestorNotificaciones.procesarSolicitud(1L, "ACEPTAR");
@@ -124,7 +116,6 @@ public class GestorNotificacionesTest {
         verify(lnSolicitud).aceptarSolicitud(1L);
     }
 
-    
     @Test
     void testCP6_Procesar_Rechazar() {
         String vista = gestorNotificaciones.procesarSolicitud(1L, "RECHAZAR");
@@ -134,7 +125,6 @@ public class GestorNotificacionesTest {
         verify(lnSolicitud).rechazarSolicitud(1L);
     }
 
-    
     @Test
     void testCP7_Procesar_Inventado() {
         String vista = gestorNotificaciones.procesarSolicitud(1L, "INVENTADO");

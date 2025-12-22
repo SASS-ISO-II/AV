@@ -27,6 +27,8 @@ class SolicitudReservaDAOTest {
     @Test
     void testFindByInmueble() {
         Propietario p1 = new Propietario();
+        p1.setLogin("prop1"); 
+        
         entityManager.persist(p1);
 
         Inmueble i1 = new Inmueble();
@@ -57,9 +59,13 @@ class SolicitudReservaDAOTest {
     @Test
     void testFindByPropietario() {
         Propietario pA = new Propietario();
+        pA.setLogin("propA"); 
+       
         entityManager.persist(pA);
 
         Propietario pB = new Propietario();
+        pB.setLogin("propB"); 
+        
         entityManager.persist(pB);
 
         Inmueble iA = new Inmueble();
@@ -82,6 +88,8 @@ class SolicitudReservaDAOTest {
     @Test
     void testFindPendientesByPropietario() {
         Propietario p1 = new Propietario();
+        p1.setLogin("propPendiente"); 
+        
         entityManager.persist(p1);
 
         Inmueble i1 = new Inmueble();
@@ -109,6 +117,8 @@ class SolicitudReservaDAOTest {
     @Test
     void testFindByPropietarioAndEstado() {
         Propietario p1 = new Propietario();
+        p1.setLogin("propEstado"); 
+       
         entityManager.persist(p1);
 
         Inmueble i1 = new Inmueble();

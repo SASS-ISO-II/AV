@@ -6,6 +6,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
 
+import java.time.LocalDate; 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +47,7 @@ public class GestorPagosTest {
     @InjectMocks
     private GestorPagos gestorPagos;
 
-    // Objetos para las pruebas
+    
     private Reserva reservaMock;
     private Inmueble inmuebleMock;
     private Pago pagoInput;
@@ -55,18 +57,19 @@ public class GestorPagosTest {
 
         inmuebleMock = new Inmueble();
         
-        inmuebleMock.setPrecioNoche(50.0);
+        
+        inmuebleMock.setPrecioNoche(100.0);
         
         reservaMock = new Reserva();
         reservaMock.setInmueble(inmuebleMock);
         reservaMock.setInquilino(new Inquilino());
 
+        reservaMock.setFechaInicio(LocalDate.now());
+        reservaMock.setFechaFin(LocalDate.now().plusDays(1));
+
         pagoInput = new Pago();
     }
 
-
-
- 
     @Test
     void testCP1_Mostrar_ReservaNull() {
         when(session.getAttribute("reservaActual")).thenReturn(null);
@@ -76,7 +79,7 @@ public class GestorPagosTest {
         assertEquals("redirect:/reserva", vista);
     }
 
-   
+    
     @Test
     void testCP2_Mostrar_ReservaExiste() {
         when(session.getAttribute("reservaActual")).thenReturn(reservaMock);
@@ -85,10 +88,9 @@ public class GestorPagosTest {
 
         assertEquals("pago", vista);
         
+        
         verify(model).addAttribute("totalAPagar", 100.0);
     }
-
-  
 
     
     @Test
@@ -98,14 +100,14 @@ public class GestorPagosTest {
         String vista = gestorPagos.procesarPago(pagoInput, session, model);
 
         assertEquals("redirect:/reserva", vista);
-     
+      
         verify(lnPagos, never()).registrarPago(any(), any());
     }
 
     
     @Test
     void testCP4_Procesar_Confirmacion() {
-       
+        
         inmuebleMock.setTipoReserva(TipoReserva.CONFIRMACION);
         reservaMock.setInmueble(inmuebleMock);
 
@@ -119,7 +121,7 @@ public class GestorPagosTest {
         
         verify(lnPagos, never()).registrarPago(any(), any());
         
-       
+        
         assertEquals("redirect:/inicio?solicitudEnviada=true", vista);
     }
 
@@ -128,7 +130,7 @@ public class GestorPagosTest {
         reservaMock.setInmueble(inmuebleMock);
 
         when(session.getAttribute("reservaActual")).thenReturn(reservaMock);
-     
+      
         when(lnPagos.registrarPago(pagoInput, reservaMock)).thenReturn(pagoInput);
 
         String vista = gestorPagos.procesarPago(pagoInput, session, model);
