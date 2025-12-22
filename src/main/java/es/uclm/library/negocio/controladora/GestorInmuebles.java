@@ -23,7 +23,7 @@ public class GestorInmuebles {
     @Autowired
     private LNInmuebles lnInmuebles;
 
-    private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
+    private static final Logger log = LoggerFactory.getLogger(GestorInmuebles.class);
 
     @GetMapping("/alta")
     public String mostrarFormularioAlta(Model model, HttpSession session) {
