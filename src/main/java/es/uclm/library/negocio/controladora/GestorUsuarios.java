@@ -26,6 +26,12 @@ import es.uclm.library.persistencia.InquilinoDAO;
 @Transactional
 public class GestorUsuarios {
 	
+	private static final String USUARIO_AUTENTICADO = "usuarioAutenticado";
+
+	private static final String USUARIO = "usuario"; 
+
+	private static final String LOGIN = "redirect:/login";  
+	
 	private static final Logger log = LoggerFactory.getLogger(GestorUsuarios.class);
 	@Autowired
 	private PropietarioDAO propietarioDAO;
@@ -65,7 +71,7 @@ public class GestorUsuarios {
 	        
 	        Propietario savedPropietario = propietarioDAO.save(propietario);
 	        log.info("Saved propietario: " + savedPropietario);
-	        session.setAttribute("usuarioAutenticado", savedPropietario);
+	        session.setAttribute(USUARIO_AUTENTICADO, savedPropietario);
 
 	        return "propietario";
 	        
@@ -76,9 +82,9 @@ public class GestorUsuarios {
 
 	        Inquilino savedInquilino = inquilinoDAO.save(inquilino);
 	        log.info("Saved inquilino: " + savedInquilino);
-	        session.setAttribute("usuarioAutenticado", savedInquilino);
+	        session.setAttribute(USUARIO_AUTENTICADO, savedInquilino);
 
-	        return "usuario";
+	        return USUARIO;
 	        
 	    }
 	    
@@ -100,7 +106,7 @@ public class GestorUsuarios {
 	        return "login";
 	    }
 	    
-	    session.setAttribute("usuarioAutenticado", encontrado);
+	    session.setAttribute(USUARIO_AUTENTICADO, encontrado);
 	    
 	    Long inmueblePendiente = (Long) session.getAttribute("inmueblePendiente");
 	    if (inmueblePendiente != null) {
@@ -123,7 +129,7 @@ public class GestorUsuarios {
 	    Inquilino inquilino = inquilinoDAO.findByLogin(encontrado.getLogin());
 	    if (inquilino != null) {
 	        model.addAttribute("registro", inquilino);
-	        return "usuario"; 
+	        return USUARIO; 
 	    }
 	    
 	    return "login";
@@ -133,31 +139,31 @@ public class GestorUsuarios {
 	@GetMapping("/usuario")
 	public String mostrarInquilino(Model model, HttpSession session) {
 		
-		Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
+		Usuario usuario = (Usuario) session.getAttribute(USUARIO_AUTENTICADO);
 		
 	    if (usuario == null) {
-	        return "redirect:/login";
+	        return LOGIN;
 	    }
 
 	    Inquilino inquilino = lnSolicitud.obtenerInquilinoPorLogin(usuario.getLogin());
 
         if (inquilino == null) {
-            return "redirect:/login";
+            return LOGIN;
         }
 
 
         model.addAttribute("registro", inquilino);
-        return "usuario";
+        return USUARIO;
         
 	}
 	
 	@GetMapping("/propietario")
 	public String mostrarPropietario(Model model, HttpSession session) {
 
-		Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
+		Usuario usuario = (Usuario) session.getAttribute(USUARIO_AUTENTICADO);
 		
 	    if (usuario == null) {
-	        return "redirect:/login";
+	        return LOGIN;
 	    }
 
 	    Propietario propietario = lninmuebles.obtenerPropietarioPorLogin(usuario.getLogin());

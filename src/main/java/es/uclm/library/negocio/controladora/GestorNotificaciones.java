@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class GestorNotificaciones {
 
+	private static final String SOLICITUDES = "solicitudes";  // Compliant
+	
     @Autowired
     private LNSolicitud lnSolicitudReserva;
 
@@ -35,18 +37,18 @@ public class GestorNotificaciones {
         
         Propietario propietario = propietarioDAO.findByLogin(usuario.getLogin());
         
-        model.addAttribute("solicitudes", solicitudReservaDAO.findByPropietario(propietario));
+        model.addAttribute(SOLICITUDES, solicitudReservaDAO.findByPropietario(propietario));
         
         if ("TODAS".equalsIgnoreCase(filtro)) {
-            model.addAttribute("solicitudes", solicitudReservaDAO.findByPropietario(propietario));
+            model.addAttribute(SOLICITUDES, solicitudReservaDAO.findByPropietario(propietario));
         } else {
-            model.addAttribute("solicitudes", solicitudReservaDAO.findByPropietarioAndEstado(
+            model.addAttribute(SOLICITUDES, solicitudReservaDAO.findByPropietarioAndEstado(
                     propietario, EstadoSolicitud.valueOf(filtro)));
         }
 
         model.addAttribute("filtroActual", filtro);
 
-        return "solicitudes";
+        return SOLICITUDES;
     }
     
     @PostMapping("/solicitudes")
