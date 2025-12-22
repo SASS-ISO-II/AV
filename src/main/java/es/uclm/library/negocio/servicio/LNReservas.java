@@ -104,9 +104,8 @@ public class LNReservas {
 
         reserva.setInquilino(inquilino);
         reserva.setInmueble(inmueble);
-        //guardarReserva(reserva);
-        session.setAttribute("reservaActual", reserva);
-
+        
+        
         session.setAttribute("reservaActual", reserva);
 
         return "ok";

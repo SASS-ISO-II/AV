@@ -119,18 +119,24 @@ class GestorInmueblesTest {
         when(session.getAttribute("usuarioAutenticado")).thenReturn(usuarioJuan);
         when(lnInmuebles.obtenerPropietarioPorLogin("juan")).thenReturn(propietarioJuan);
 
-        
         Inmueble inmInvalido = new Inmueble();
         inmInvalido.setPrecioNoche(-50.0); 
 
-        
+     
         when(lnInmuebles.registrarInmueble(any(Inmueble.class), anyString())).thenReturn(null);
 
+        
         String view = gestorInmuebles.guardarInmueble(inmInvalido, model, session);
 
+      
         assertEquals("alta", view);
         
-        verify(model).addAttribute(eq("error"), eq("Debes iniciar sesión como propietario para registrar un inmueble."));
+       
+        verify(model).addAttribute("estaLogueado", true);
+        verify(model).addAttribute("propietario", propietarioJuan);
+
+      
+        verify(model).addAttribute(eq("error"), eq("Error al guardar: revise los datos del inmueble."));
     }
 
     @Test 

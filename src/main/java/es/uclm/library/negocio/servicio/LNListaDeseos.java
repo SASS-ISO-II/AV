@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.uclm.library.negocio.controladora.GestorPagos;
 import es.uclm.library.negocio.dominio.Inmueble;
 import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.dominio.ListaDeseos;
@@ -27,7 +26,8 @@ public class LNListaDeseos {
     @Autowired
     private InmuebleDAO inmuebleDAO;
 
-    private static final Logger log = LoggerFactory.getLogger(GestorPagos.class);
+    
+    private static final Logger log = LoggerFactory.getLogger(LNListaDeseos.class);
 
     public ListaDeseos obtenerListaDeseosPorInquilino(String loginInquilino) {
         Inquilino inquilino = inquilinoDAO.findByLogin(loginInquilino);
