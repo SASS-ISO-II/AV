@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.uclm.library.negocio.dominio.EstadoSolicitud;
+import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.Usuario;
 import es.uclm.library.negocio.servicio.LNSolicitud;
@@ -63,4 +64,35 @@ public class GestorNotificaciones {
         return "redirect:/solicitudes";
     }
     
+    @GetMapping("/reservaUsuario")
+    public String listarReservasInquilino(
+            HttpSession session,
+            Model model,
+            @RequestParam(required = false, defaultValue = "TODAS") String filtro) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioAutenticado");
+        if (usuario == null) return "redirect:/login";
+
+        Inquilino inquilino = (Inquilino) usuario;
+
+        if ("TODAS".equalsIgnoreCase(filtro)) {
+            model.addAttribute(
+                "solicitudes",
+                solicitudReservaDAO.findByInquilino(inquilino)
+            );
+        } else {
+            model.addAttribute(
+                "solicitudes",
+                solicitudReservaDAO.findByInquilinoAndEstado(
+                    inquilino,
+                    EstadoSolicitud.valueOf(filtro)
+                )
+            );
+        }
+
+        model.addAttribute("filtroActual", filtro);
+
+        return "reservaUsuario";
+    }
+
 }

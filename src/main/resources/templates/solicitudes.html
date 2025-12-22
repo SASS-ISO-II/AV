@@ -5,12 +5,70 @@
     <title>Solicitudes de reserva</title>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            padding: 40px;
-            background: #F3E9DA;
-        }
 
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		body {
+		    font-family: 'Inter', sans-serif;
+		    min-height: 100vh;
+		    padding: 40px;
+		    background: linear-gradient(
+		        to bottom,
+		        #F3E9DA 0%,
+		        #F3E9DA 45%,
+		        #6AA89B 45%,
+		        #6AA89B 100%
+		    );
+		    background-attachment: fixed;
+		    position: relative;
+		    overflow-x: hidden;
+		}
+		
+		.circle {
+		    position: absolute;
+		    border-radius: 50%;
+		    opacity: 0.22;
+		    filter: blur(3px);
+		    z-index: 0;
+		}
+
+		.c1 {
+		    width: 260px;
+		    height: 260px;
+		    top: 20px;
+		    left: 20px;
+		    background: #D9C8B4;
+		    animation: float1 18s infinite ease-in-out alternate;
+		}
+
+		.c2 {
+		    width: 340px;
+		    height: 340px;
+		    top: 180px;
+		    right: -60px;
+		    background: #1A3C40;
+		    opacity: 0.15;
+		    animation: float2 22s infinite ease-in-out alternate;
+		}
+
+		.c3 {
+		    width: 160px;
+		    height: 160px;
+		    bottom: 50px;
+		    left: 25%;
+		    background: #B8D7CE;
+		    animation: float3 26s infinite ease-in-out alternate;
+		}
+
+		@keyframes float1 { from { transform: translateY(0); } to { transform: translateY(40px); } }
+		@keyframes float2 { from { transform: translateY(0); } to { transform: translateY(-35px); } }
+		@keyframes float3 { from { transform: translateY(0); } to { transform: translateY(25px); } }
+		
+		.content {
+		    position: relative;
+		    z-index: 1;
+		}
+		
         h1 {
             color: #1A3C40;
             margin-bottom: 20px;
@@ -48,61 +106,77 @@
         .btn-aceptar:hover {
             background: #163236;
         }
+		
+		.btn {
+		    display: inline-block;
+		    padding: 10px 16px;
+		    background: #1A3C40;
+		    color: white;
+		    border-radius: 12px;
+		    text-decoration: none;
+		    font-weight: 600;
+		    margin-top: 20px;
+		}
+		
     </style>
 </head>
 <body>
-
-<h1>Solicitudes pendientes</h1>
-
-<div class="search-card">
-    <form method="get" th:action="@{/solicitudes}">
-        <label>Filtrar por estado:</label>
-        <select name="filtro" onchange="this.form.submit()">
-            <option value="TODAS" th:selected="${filtroActual=='TODAS'}">Todas</option>
-            <option value="PENDIENTE" th:selected="${filtroActual=='PENDIENTE'}">Pendientes</option>
-            <option value="ACEPTADA" th:selected="${filtroActual=='ACEPTADA'}">Aceptadas</option>
-            <option value="RECHAZADA" th:selected="${filtroActual=='RECHAZADA'}">Rechazadas</option>
-        </select>
-    </form>
-</div>
-
-<table>
-    <tr>
-        <th>Inquilino</th>
-        <th>Inmueble</th>
-		<th>Fecha de inicio</th>
-		<th>Fecha de fin</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-
-    <tr th:each="s : ${solicitudes}">
-        <td th:text="${s.inquilino.login}"></td>
-		<td th:text="${s.inmueble.calle + ' ' + s.inmueble.numero + ', ' + s.inmueble.localizacion}"></td>
-		<td th:text="${s.fechaInicio != null ? s.fechaInicio : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaInicio : '—')}"></td>
-		<td th:text="${s.fechaFin != null ? s.fechaFin : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaFin : '—')}"></td>
-
-		<td th:text="${s.estado}"></td>
-
-		<td>
-		    <div th:if="${s.estado.name() == 'PENDIENTE'}">
-		        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
-		            <input type="hidden" name="id" th:value="${s.id}">
-		            <button type="submit" name="accion" value="ACEPTAR" class="btn-aceptar">Aceptar</button>
-		        </form>
-
-		        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
-		            <input type="hidden" name="id" th:value="${s.id}">
-		            <button type="submit" name="accion" value="RECHAZAR" class="btn-rechazar">Rechazar</button>
-		        </form>
-		    </div>
-
-		    <span th:if="${s.estado.name() != 'PENDIENTE'}">-</span>
-		</td>
-    </tr>
-</table>
-<div class="card">
-    <a class="btn" href="/inicio">Volver al inicio</a>
+	<div class="circle c1"></div>
+	<div class="circle c2"></div>
+	<div class="circle c3"></div>
+<div class="content">
+	<h1>Solicitudes pendientes</h1>
+	
+	<div class="search-card">
+	    <form method="get" th:action="@{/solicitudes}">
+	        <label>Filtrar por estado:</label>
+	        <select name="filtro" onchange="this.form.submit()">
+	            <option value="TODAS" th:selected="${filtroActual=='TODAS'}">Todas</option>
+	            <option value="PENDIENTE" th:selected="${filtroActual=='PENDIENTE'}">Pendientes</option>
+	            <option value="ACEPTADA" th:selected="${filtroActual=='ACEPTADA'}">Aceptadas</option>
+	            <option value="RECHAZADA" th:selected="${filtroActual=='RECHAZADA'}">Rechazadas</option>
+	        </select>
+	    </form>
+	</div>
+	
+	<table>
+	    <tr>
+	        <th>Inquilino</th>
+	        <th>Inmueble</th>
+			<th>Fecha de inicio</th>
+			<th>Fecha de fin</th>
+	        <th>Estado</th>
+	        <th>Acciones</th>
+	    </tr>
+	
+	    <tr th:each="s : ${solicitudes}">
+	        <td th:text="${s.inquilino.login}"></td>
+			<td th:text="${s.inmueble.calle + ' ' + s.inmueble.numero + ', ' + s.inmueble.localizacion}"></td>
+			<td th:text="${s.fechaInicio != null ? s.fechaInicio : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaInicio : '—')}"></td>
+			<td th:text="${s.fechaFin != null ? s.fechaFin : (s.reservaConfirmada != null ? s.reservaConfirmada.fechaFin : '—')}"></td>
+	
+			<td th:text="${s.estado}"></td>
+	
+			<td>
+			    <div th:if="${s.estado.name() == 'PENDIENTE'}">
+			        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
+			            <input type="hidden" name="id" th:value="${s.id}">
+			            <button type="submit" name="accion" value="ACEPTAR" class="btn-aceptar">Aceptar</button>
+			        </form>
+	
+			        <form th:action="@{/solicitudes}" method="post" style="display:inline;">
+			            <input type="hidden" name="id" th:value="${s.id}">
+			            <button type="submit" name="accion" value="RECHAZAR" class="btn-rechazar">Rechazar</button>
+			        </form>
+			    </div>
+	
+			    <span th:if="${s.estado.name() != 'PENDIENTE'}">-</span>
+			</td>
+	    </tr>
+	</table>
+	<div class="card">
+	    <a class="btn" href="/inicio">Volver al inicio</a>
+	</div>
 </div>
 </body>
 </html>

@@ -1,12 +1,15 @@
 package es.uclm.library.persistencia;
 
 import java.util.Collection;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import es.uclm.library.negocio.dominio.SolicitudReserva;
 import es.uclm.library.negocio.dominio.Inmueble;
+import es.uclm.library.negocio.dominio.Inquilino;
 import es.uclm.library.negocio.dominio.Propietario;
 import es.uclm.library.negocio.dominio.EstadoSolicitud;
 
@@ -29,6 +32,13 @@ public interface SolicitudReservaDAO extends JpaRepository<SolicitudReserva, Lon
     Collection<SolicitudReserva> findByPropietarioAndEstado(
             @Param("propietario") Propietario propietario,
             @Param("estado") EstadoSolicitud estado
+    );
+
+    List<SolicitudReserva> findByInquilino(Inquilino inquilino);
+
+    List<SolicitudReserva> findByInquilinoAndEstado(
+            Inquilino inquilino,
+            EstadoSolicitud estado
     );
 
 
